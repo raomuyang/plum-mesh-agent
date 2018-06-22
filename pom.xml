@@ -25,7 +25,6 @@
         <module>suniper-mesh-discovery-etcd</module>
         <module>suniper-mesh-discovery-zk</module>
         <module>suniper-mesh-loadbalance-client</module>
-        <module>test</module>
     </modules>
 
     <dependencies>
