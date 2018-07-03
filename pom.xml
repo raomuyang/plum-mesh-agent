@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>cn.suniper</groupId>
-    <artifactId>suniper-mesh-agent</artifactId>
+    <artifactId>plum-mesh-agent</artifactId>
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
 
@@ -20,11 +20,10 @@
     </properties>
 
     <modules>
-        <module>suniper-mesh-discovery-core</module>
-        <module>suniper-mesh-protocol</module>
-        <module>suniper-mesh-discovery-etcd</module>
-        <module>suniper-mesh-discovery-zk</module>
-        <module>suniper-mesh-loadbalance-client</module>
+        <module>plum-mesh-discovery-core</module>
+        <module>plum-mesh-discovery-etcd</module>
+        <module>plum-mesh-discovery-zk</module>
+        <module>plum-mesh-loadbalance-client</module>
     </modules>
 
     <dependencies>

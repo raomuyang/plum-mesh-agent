@@ -13,6 +13,7 @@ import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
+import java.util.function.Function;
 
 /**
  * @author Rao Mengnan
@@ -41,7 +42,8 @@ public class PropertiesUtil {
                 String[] values = listStr.split(",");
                 v = Arrays.asList(values);
             } else if (descriptor.getPropertyType() == int.class) {
-                v = Integer.valueOf(properties.getProperty(descriptor.getName(), "0"));
+                Object intVal = properties.computeIfAbsent(descriptor.getName(), s -> "0");
+                v = Integer.valueOf(String.valueOf(intVal));
             } else {
                 v = properties.get(descriptor.getName());
             }
