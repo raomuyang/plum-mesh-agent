@@ -5,7 +5,6 @@ import cn.suniper.mesh.discovery.model.Node;
 import cn.suniper.mesh.discovery.model.ProviderInfo;
 import cn.suniper.mesh.discovery.util.MapperUtil;
 import com.google.common.collect.Lists;
-import com.netflix.loadbalancer.Server;
 import com.netflix.loadbalancer.ServerList;
 import com.netflix.loadbalancer.ServerListUpdater;
 import org.apache.commons.logging.Log;
@@ -24,7 +23,7 @@ import java.util.stream.Stream;
  * @author Rao Mengnan
  *         on 2018/6/10.
  */
-public class RegisteredServerDynamicList implements ServerList<Server> {
+public class RegisteredServerDynamicList implements ServerList<RegisteredServer> {
 
     private Log log = LogFactory.getLog(getClass());
 
@@ -35,9 +34,16 @@ public class RegisteredServerDynamicList implements ServerList<Server> {
 
     public RegisteredServerDynamicList(KVStore store, Application application) {
         if (application == null) throw new IllegalArgumentException("application must be not null");
+        init(store, application.getName());
+    }
 
+    public RegisteredServerDynamicList(KVStore store, String applicationName) {
+        init(store, applicationName);
+    }
+
+    private void init(KVStore store, String applicationName) {
         this.store = store;
-        this.appName = application.getName();
+        this.appName = applicationName;
 
         this.providerMap = new ConcurrentHashMap<>();
         this.parentNode = String.join("/", Constants.STORE_ROOT, appName);
@@ -57,7 +63,7 @@ public class RegisteredServerDynamicList implements ServerList<Server> {
     }
 
     @Override
-    public List<Server> getInitialListOfServers() {
+    public List<RegisteredServer> getInitialListOfServers() {
         try {
             List<Node> nodeInfoList = store.list(parentNode);
             Stream<ProviderInfo> stream = nodeInfoList.stream().map(node ->
@@ -71,11 +77,11 @@ public class RegisteredServerDynamicList implements ServerList<Server> {
     }
 
     @Override
-    public List<Server> getUpdatedListOfServers() {
+    public List<RegisteredServer> getUpdatedListOfServers() {
         return map2ServerList(providerMap.values().stream());
     }
 
-    private List<Server> map2ServerList(Stream<ProviderInfo> stream) {
+    private List<RegisteredServer> map2ServerList(Stream<ProviderInfo> stream) {
         return stream
                 .filter(Objects::nonNull)
                 .map(i -> new RegisteredServer(appName, i))

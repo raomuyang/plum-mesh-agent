@@ -1,6 +1,6 @@
-package cn.suniper.mesh.loadbalance.client.util;
+package cn.suniper.mesh.transport.util;
 
-import cn.suniper.mesh.loadbalance.client.tcp.NettyClientProperties;
+import cn.suniper.mesh.transport.tcp.NettyClientProperties;
 import org.junit.Test;
 
 import java.util.Properties;

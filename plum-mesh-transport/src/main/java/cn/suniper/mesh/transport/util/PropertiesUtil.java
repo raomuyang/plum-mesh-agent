@@ -1,6 +1,6 @@
-package cn.suniper.mesh.loadbalance.client.util;
+package cn.suniper.mesh.transport.util;
 
-import cn.suniper.mesh.loadbalance.client.tcp.NettyClientProperties;
+import cn.suniper.mesh.transport.tcp.NettyClientProperties;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -13,7 +13,6 @@ import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
-import java.util.function.Function;
 
 /**
  * @author Rao Mengnan

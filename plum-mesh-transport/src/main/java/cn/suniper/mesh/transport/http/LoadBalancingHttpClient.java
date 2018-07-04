@@ -1,4 +1,4 @@
-package cn.suniper.mesh.loadbalance.client.http;
+package cn.suniper.mesh.transport.http;
 
 import com.netflix.client.AbstractLoadBalancerAwareClient;
 import com.netflix.client.RequestSpecificRetryHandler;

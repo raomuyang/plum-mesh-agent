@@ -1,4 +1,4 @@
-package cn.suniper.mesh.loadbalance.client.tcp;
+package cn.suniper.mesh.transport.tcp;
 
 import com.netflix.client.ClientException;
 import com.netflix.client.IResponse;

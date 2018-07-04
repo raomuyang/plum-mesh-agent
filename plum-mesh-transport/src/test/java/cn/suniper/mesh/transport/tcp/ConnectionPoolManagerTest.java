@@ -1,6 +1,5 @@
-package cn.suniper.mesh.loadbalance.client.tcp;
+package cn.suniper.mesh.transport.tcp;
 
-import cn.suniper.mesh.loadbalance.client.util.PropertiesUtil;
 import io.netty.handler.codec.http.HttpClientCodec;
 import io.netty.handler.codec.http.HttpContentDecompressor;
 import org.junit.Test;
