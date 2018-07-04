@@ -16,6 +16,7 @@ public class DefaultPipelineInitializer implements Initializer {
     private List<Class<? extends ChannelHandler>> channelHandlers;
 
     public DefaultPipelineInitializer() {
+        channelHandlers = new ArrayList<>();
     }
 
     @SuppressWarnings("unchecked")

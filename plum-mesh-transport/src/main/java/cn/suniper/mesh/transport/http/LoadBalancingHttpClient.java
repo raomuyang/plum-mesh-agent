@@ -1,5 +1,6 @@
 package cn.suniper.mesh.transport.http;
 
+import cn.suniper.mesh.transport.Constants;
 import com.netflix.client.AbstractLoadBalancerAwareClient;
 import com.netflix.client.RequestSpecificRetryHandler;
 import com.netflix.client.config.CommonClientConfigKey;
@@ -30,6 +31,7 @@ public class LoadBalancingHttpClient
 
     private IClientConfig icc;
 
+
     public LoadBalancingHttpClient() {
         this(null);
     }
@@ -41,6 +43,9 @@ public class LoadBalancingHttpClient
     public LoadBalancingHttpClient(ILoadBalancer lb, IClientConfig clientConfig) {
         super(lb, clientConfig);
         this.icc = clientConfig;
+        if (this.vipAddresses == null) {
+            this.vipAddresses = Constants.DEFAULT_VIP_ADDRESS;
+        }
     }
 
     @Override
@@ -48,7 +53,7 @@ public class LoadBalancingHttpClient
         if (!request.isRetriable()) {
             return new RequestSpecificRetryHandler(false, false, this.getRetryHandler(), requestConfig);
         }
-        if (this.icc.get(CommonClientConfigKey.OkToRetryOnAllOperations, false)) {
+        if (this.icc != null && this.icc.get(CommonClientConfigKey.OkToRetryOnAllOperations, false)) {
             return new RequestSpecificRetryHandler(true, true, this.getRetryHandler(), requestConfig);
         }
         // 非get请求不能重试

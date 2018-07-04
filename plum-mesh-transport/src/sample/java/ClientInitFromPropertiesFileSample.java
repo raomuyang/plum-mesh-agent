@@ -13,10 +13,10 @@ import java.util.Properties;
  * @author Rao Mengnan
  *         on 2018/7/3.
  */
-public class SampleTcpClient {
+public class ClientInitFromPropertiesFileSample {
     public static void main(String[] args) throws IOException, ClassNotFoundException {
         Properties properties = new Properties();
-        properties.load(SampleTcpClient.class.getResourceAsStream("/config.properties"));
+        properties.load(ClientInitFromPropertiesFileSample.class.getResourceAsStream("/config.properties"));
         ConnectionPoolManager manager = ConnectionPoolManager.initFromClientProperties(properties);
 
         try {

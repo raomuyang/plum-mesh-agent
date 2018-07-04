@@ -1,5 +1,6 @@
 package cn.suniper.mesh.transport.tcp;
 
+import cn.suniper.mesh.transport.Constants;
 import com.netflix.client.AbstractLoadBalancerAwareClient;
 import com.netflix.client.RequestSpecificRetryHandler;
 import com.netflix.client.config.CommonClientConfigKey;
@@ -17,6 +18,7 @@ import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.pool.FixedChannelPool;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
+import io.netty.util.ReferenceCountUtil;
 import io.netty.util.concurrent.Future;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -89,6 +91,10 @@ public class AsyncLoadBalancingTcpClient extends AbstractLoadBalancerAwareClient
 
         if (icc != null) {
             connectionTimeout = icc.get(IClientConfigKey.Keys.ConnectTimeout);
+        }
+
+        if (this.vipAddresses == null) {
+            this.vipAddresses = Constants.DEFAULT_VIP_ADDRESS;
         }
     }
 

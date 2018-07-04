@@ -10,7 +10,7 @@ import io.netty.util.CharsetUtil;
  * @author Rao Mengnan
  *         on 2018/7/3.
  */
-public class SampleHttpHandler extends SimpleChannelInboundHandler<HttpObject> {
+public class SimpleHttpHandler extends SimpleChannelInboundHandler<HttpObject> {
 
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, HttpObject msg) throws Exception {
