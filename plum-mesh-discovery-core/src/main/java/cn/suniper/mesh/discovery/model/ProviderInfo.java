@@ -12,6 +12,17 @@ public class ProviderInfo {
     private int port;
     private long version;
 
+    public ProviderInfo(String name, String ip, int weight, int port, long version) {
+        this.name = name;
+        this.ip = ip;
+        this.weight = weight;
+        this.port = port;
+        this.version = version;
+    }
+
+    public ProviderInfo() {
+    }
+
     public String getIp() {
         return ip;
     }

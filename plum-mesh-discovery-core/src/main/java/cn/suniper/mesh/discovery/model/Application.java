@@ -13,6 +13,15 @@ public class Application {
 
     private String name;
 
+    public Application() {
+    }
+
+    public Application(List<String> registryUrlList, ProviderInfo providerInfo, String name) {
+        this.registryUrlList = registryUrlList;
+        this.providerInfo = providerInfo;
+        this.name = name;
+    }
+
     public String getName() {
         return name;
     }

@@ -17,17 +17,71 @@
         <java.version>1.8</java.version>
         <jetcd-version>0.0.2</jetcd-version>
         <apache.logging.version>2.8.1</apache.logging.version>
+        <ribbon-version>2.3.0</ribbon-version>
+        <mesh-version>1.0-SNAPSHOT</mesh-version>
     </properties>
 
     <modules>
         <module>plum-mesh-discovery-core</module>
         <module>plum-mesh-discovery-etcd</module>
         <module>plum-mesh-discovery-zk</module>
-        <module>plum-mesh-loadbalance-client</module>
+        <module>plum-mesh-transport</module>
     </modules>
 
-    <dependencies>
+    <dependencyManagement>
 
+        <dependencies>
+            <dependency>
+                <groupId>cn.suniper</groupId>
+                <artifactId>plum-mesh-discovery-core</artifactId>
+                <version>${mesh-version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>cn.suniper</groupId>
+                <artifactId>plum-mesh-discovery-etcd</artifactId>
+                <version>${mesh-version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>cn.suniper</groupId>
+                <artifactId>plum-mesh-discovery-zk</artifactId>
+                <version>${mesh-version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>cn.suniper</groupId>
+                <artifactId>plum-mesh-transport</artifactId>
+                <version>${mesh-version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>cn.suniper</groupId>
+                <artifactId>plum-mesh-loadbalance-all-etcd</artifactId>
+                <version>${mesh-version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.netflix.ribbon</groupId>
+                <artifactId>ribbon-loadbalancer</artifactId>
+                <version>${ribbon-version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.netflix.ribbon</groupId>
+                <artifactId>ribbon-core</artifactId>
+                <version>${ribbon-version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.netflix.ribbon</groupId>
+                <artifactId>ribbon-httpclient</artifactId>
+                <version>${ribbon-version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <dependencies>
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
