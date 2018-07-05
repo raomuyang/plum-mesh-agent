@@ -7,13 +7,19 @@ import cn.suniper.mesh.discovery.model.Node;
 import com.google.common.collect.Lists;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.zookeeper.*;
+import org.apache.zookeeper.CreateMode;
+import org.apache.zookeeper.KeeperException;
+import org.apache.zookeeper.WatchedEvent;
+import org.apache.zookeeper.Watcher;
+import org.apache.zookeeper.ZooDefs;
+import org.apache.zookeeper.ZooKeeper;
 import org.apache.zookeeper.common.PathUtils;
 import org.apache.zookeeper.data.Stat;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.BiConsumer;
 import java.util.function.Supplier;
@@ -137,6 +143,18 @@ public class ZKStore implements KVStore {
             log.debug(e);
             return null;
         }
+    }
+
+    @Override
+    public void close() throws Exception {
+        Optional.ofNullable(zooKeeper).ifPresent(z -> {
+            try {
+                z.close();
+            } catch (InterruptedException e) {
+                log.debug("close zookeeper client interrupted", e);
+                Thread.currentThread().interrupt();
+            }
+        });
     }
 
     /**

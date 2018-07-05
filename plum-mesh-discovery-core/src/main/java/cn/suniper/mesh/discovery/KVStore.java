@@ -11,7 +11,7 @@ import java.util.function.Supplier;
  * @author Rao Mengnan
  *         on 2018/6/10.
  */
-public interface KVStore {
+public interface KVStore extends AutoCloseable {
     /**
      * 获取节点及数据，当不存在时，返回null
      *

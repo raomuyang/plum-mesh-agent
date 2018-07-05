@@ -21,6 +21,7 @@ import com.coreos.jetcd.watch.WatchResponse;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.ExecutionException;
@@ -222,4 +223,8 @@ public class EtcdStore implements KVStore {
         return new Node(key, value, kv.getCreateRevision(), kv.getModRevision(), kv.getVersion());
     }
 
+    @Override
+    public void close() throws Exception {
+        Optional.ofNullable(client).ifPresent(Client::close);
+    }
 }

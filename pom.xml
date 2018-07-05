@@ -17,8 +17,10 @@
         <java.version>1.8</java.version>
         <jetcd-version>0.0.2</jetcd-version>
         <apache.logging.version>2.8.1</apache.logging.version>
+        <apache.commons.config.version>2.2</apache.commons.config.version>
         <ribbon-version>2.3.0</ribbon-version>
         <mesh-version>1.0-SNAPSHOT</mesh-version>
+        <zk.version>3.4.12</zk.version>
     </properties>
 
     <modules>
@@ -26,6 +28,9 @@
         <module>plum-mesh-discovery-etcd</module>
         <module>plum-mesh-discovery-zk</module>
         <module>plum-mesh-transport</module>
+        <module>plum-mesh-discovery-all</module>
+
+        <module>plum-mesh-loadbalance-etcd-test</module>
     </modules>
 
     <dependencyManagement>
@@ -78,6 +83,25 @@
                 <artifactId>ribbon-httpclient</artifactId>
                 <version>${ribbon-version}</version>
             </dependency>
+
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-configuration2</artifactId>
+                <version>${apache.commons.config.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.zookeeper</groupId>
+                <artifactId>zookeeper</artifactId>
+                <version>${zk.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.coreos</groupId>
+                <artifactId>jetcd-core</artifactId>
+                <version>0.0.2</version>
+            </dependency>
+
         </dependencies>
     </dependencyManagement>
 
