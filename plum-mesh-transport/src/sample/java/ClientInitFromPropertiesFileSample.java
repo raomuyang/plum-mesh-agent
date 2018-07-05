@@ -10,6 +10,8 @@ import java.net.URI;
 import java.util.Properties;
 
 /**
+ * 通过配置文件初始化Tcp客户端，使用tcp客户端发送http请求
+ *
  * @author Rao Mengnan
  *         on 2018/7/3.
  */

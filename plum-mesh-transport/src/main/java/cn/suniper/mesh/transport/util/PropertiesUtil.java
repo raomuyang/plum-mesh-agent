@@ -1,5 +1,6 @@
 package cn.suniper.mesh.transport.util;
 
+import cn.suniper.mesh.transport.TransportConfigKey;
 import cn.suniper.mesh.transport.tcp.NettyClientProperties;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -10,9 +11,7 @@ import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Properties;
+import java.util.*;
 
 /**
  * @author Rao Mengnan
@@ -33,26 +32,25 @@ public class PropertiesUtil {
 
         for (PropertyDescriptor descriptor : beanInfo.getPropertyDescriptors()) {
             if (descriptor.getName().equals("class")) continue;
-            if (properties.get(descriptor.getName()) == null) continue;
 
-            Object v;
-            if (descriptor.getPropertyType() == List.class) {
-                String listStr = properties.getProperty(descriptor.getName());
-                String[] values = listStr.split(",");
-                v = Arrays.asList(values);
-            } else if (descriptor.getPropertyType() == int.class) {
-                Object intVal = properties.computeIfAbsent(descriptor.getName(), s -> "0");
-                v = Integer.valueOf(String.valueOf(intVal));
-            } else {
-                v = properties.get(descriptor.getName());
-            }
-            Method setter = descriptor.getWriteMethod();
-            try {
-                setter.invoke(tcpClientProperties, v);
-            } catch (IllegalAccessException | InvocationTargetException e) {
-                log.debug(e);
-                throw new IllegalArgumentException("illegal property value");
-            }
+            TransportConfigKey key = TransportConfigKey.get(descriptor.getName());
+
+            Optional.ofNullable(key)
+                    .map(k -> {
+                        Object val = properties.get(k.propName());
+                        return val != null ? k.convert(val) : null;
+                    })
+                    .ifPresent(v -> {
+
+                        Method setter = descriptor.getWriteMethod();
+                        try {
+                            setter.invoke(tcpClientProperties, v);
+                        } catch (IllegalAccessException | InvocationTargetException e) {
+                            log.debug(e);
+                            throw new IllegalArgumentException("illegal property value");
+                        }
+                    });
+
         }
         return tcpClientProperties;
     }

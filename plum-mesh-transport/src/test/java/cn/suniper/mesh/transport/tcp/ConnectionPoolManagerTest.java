@@ -1,5 +1,6 @@
 package cn.suniper.mesh.transport.tcp;
 
+import cn.suniper.mesh.transport.TransportConfigKey;
 import io.netty.handler.codec.http.HttpClientCodec;
 import io.netty.handler.codec.http.HttpContentDecompressor;
 import org.junit.Test;
@@ -24,16 +25,15 @@ public class ConnectionPoolManagerTest {
         );
 
         Properties properties = new Properties();
-        properties.put("groupEventType", "io.netty.channel.nio.NioEventLoopGroup");
-        properties.put("socketChannelType", "io.netty.channel.socket.nio.NioSocketChannel");
-        properties.put("workers", 4);
-        properties.put("maxPoolConn", 30);
-        properties.put("channelPipelines", String.join(",", channels));
-        System.out.println(properties.get("channelPipelines"));
+        properties.put(TransportConfigKey.GROUP_EVENT_TYPE.propName(), "io.netty.channel.nio.NioEventLoopGroup");
+        properties.put(TransportConfigKey.SOCKET_CHANNEL_TYPE.propName(), "io.netty.channel.socket.nio.NioSocketChannel");
+        properties.put(TransportConfigKey.WORKERS.propName(), 4);
+        properties.put(TransportConfigKey.MAX_POOL_CONN.propName(), 30);
+        properties.put(TransportConfigKey.CHANNEL_PIPELINES.propName(), String.join(",", channels));
 
         ConnectionPoolManager manager = ConnectionPoolManager.initFromClientProperties(properties);
-        assertEquals(properties.get("socketChannelType"), manager.getSocketChannelType().getName());
-        assertEquals(properties.get("groupEventType"), manager.getGroupType().getName());
+        assertEquals(properties.get(TransportConfigKey.SOCKET_CHANNEL_TYPE.propName()), manager.getSocketChannelType().getName());
+        assertEquals(properties.get(TransportConfigKey.GROUP_EVENT_TYPE.propName()), manager.getGroupType().getName());
         manager.shutdown();
     }
 
