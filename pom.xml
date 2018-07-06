@@ -29,7 +29,7 @@
         <module>plum-mesh-discovery-etcd</module>
         <module>plum-mesh-discovery-zk</module>
         <module>plum-mesh-transport</module>
-        <module>plum-mesh-discovery-all</module>
+        <module>plum-mesh-discovery-start</module>
     </modules>
 
     <dependencyManagement>
