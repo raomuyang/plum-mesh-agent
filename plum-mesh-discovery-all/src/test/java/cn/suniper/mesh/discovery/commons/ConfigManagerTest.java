@@ -53,6 +53,8 @@ public class ConfigManagerTest {
         assertEquals(0, providerInfo.getVersion());
         assertEquals(1, providerInfo.getWeight());
 
+        assertTrue(manager.hasPlumTcpConfig());
+
     }
 
 }

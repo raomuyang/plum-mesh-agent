@@ -3,6 +3,7 @@ package cn.suniper.mesh.discovery.commons;
 import cn.suniper.mesh.discovery.annotation.CommonPropertyName;
 import cn.suniper.mesh.discovery.model.Application;
 import cn.suniper.mesh.discovery.model.ProviderInfo;
+import cn.suniper.mesh.transport.Constants;
 import cn.suniper.mesh.transport.tcp.NettyClientProperties;
 import cn.suniper.mesh.transport.util.PropertiesUtil;
 import com.google.common.collect.Lists;
@@ -18,6 +19,7 @@ import org.apache.commons.configuration2.builder.fluent.PropertiesBuilderParamet
 import org.apache.commons.configuration2.convert.DefaultListDelimiterHandler;
 import org.apache.commons.configuration2.ex.ConfigurationException;
 
+import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.Properties;
@@ -27,12 +29,53 @@ import java.util.Properties;
  *         on 2018/7/6.
  */
 public class ConfigManager {
+    public static final String DEFAULT_CONFIG_NAME = "plum.properties";
+
     private static final String DELIMITER = ",";
     private Configuration cfgTool;
 
     private Application application;
     private NettyClientProperties nettyClientProperties;
     private IClientConfig ribbonClientConfig;
+    private boolean hasTcpConfig;
+
+    private ConfigManager() {
+
+    }
+
+    public static class Builder {
+        ConfigManager configManager;
+        private Builder() {
+            configManager = new ConfigManager();
+        }
+
+        public Builder withAppInfo(Application appInfo) {
+            configManager.application = appInfo;
+            return this;
+        }
+
+        public Builder withRibbonClientConfig(IClientConfig ribbonClientConfig) {
+            configManager.ribbonClientConfig = ribbonClientConfig;
+            return this;
+        }
+
+        public ConfigManager build() {
+            if (configManager.application == null)
+                throw new IllegalStateException("Application information was not indefinite");
+            if (configManager.ribbonClientConfig == null) {
+                Properties properties = new Properties();
+                try {
+                    properties.load(ConfigManager.class.getResourceAsStream("/" + DEFAULT_CONFIG_NAME));
+                    ConfigurationManager.loadProperties(properties);
+                    configManager.ribbonClientConfig = new DefaultClientConfigImpl();
+                    configManager.ribbonClientConfig.loadProperties(CommonPropertyName.RIBBON_CLIENT_NAME.propName());
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            return configManager;
+        }
+    }
 
     public static ConfigManager loadProperties(String path) throws ConfigurationException {
         PropertiesBuilderParameters parameters = new Parameters().properties()
@@ -49,6 +92,7 @@ public class ConfigManager {
         return manager;
     }
 
+
     private void initFromProperties() {
         application = new Application();
         ProviderInfo providerInfo = new ProviderInfo();
@@ -57,6 +101,9 @@ public class ConfigManager {
         Properties properties = new Properties();
         cfgTool.getKeys().forEachRemaining(key -> {
             properties.put(key, cfgTool.getProperty(key));
+
+            // 判断是否有netty相关的配置
+            if (!hasTcpConfig && key.startsWith(Constants.CONFIG_PREFIX)) hasTcpConfig = true;
 
             if (!key.startsWith(CommonPropertyName.PREFIX.propName())) return;
 
@@ -113,4 +160,7 @@ public class ConfigManager {
         return ribbonClientConfig;
     }
 
+    public boolean hasPlumTcpConfig() {
+        return hasTcpConfig;
+    }
 }
