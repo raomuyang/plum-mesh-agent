@@ -14,5 +14,5 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
 public @interface AsConsumer {
-    KvSource.Provider provide() default KvSource.Provider.AUTO;
+    KvSource.Provider kv() default KvSource.Provider.AUTO;
 }
