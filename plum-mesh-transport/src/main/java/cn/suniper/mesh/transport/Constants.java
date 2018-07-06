@@ -17,4 +17,5 @@ public interface Constants {
 
     // Default vipAddress for ribbon load balance
     String DEFAULT_VIP_ADDRESS = "LB-APP";
+    String CONFIG_PREFIX = "plum.tcp";
 }
