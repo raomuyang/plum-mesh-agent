@@ -86,4 +86,15 @@ public class ProviderInfo {
         result = 31 * result + (int) (version ^ (version >>> 32));
         return result;
     }
+
+    @Override
+    public String toString() {
+        return "ProviderInfo{" +
+                "name='" + name + '\'' +
+                ", ip='" + ip + '\'' +
+                ", weight=" + weight +
+                ", port=" + port +
+                ", version=" + version +
+                '}';
+    }
 }

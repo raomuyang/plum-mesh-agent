@@ -13,6 +13,8 @@ public class Application {
 
     private String name;
 
+    private boolean asProvider;
+
     public Application() {
     }
 
@@ -20,6 +22,14 @@ public class Application {
         this.registryUrlList = registryUrlList;
         this.providerInfo = providerInfo;
         this.name = name;
+    }
+
+    public boolean isAsProvider() {
+        return asProvider;
+    }
+
+    public void setAsProvider(boolean asProvider) {
+        this.asProvider = asProvider;
     }
 
     public String getName() {
