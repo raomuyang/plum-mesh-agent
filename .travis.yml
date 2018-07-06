@@ -1,0 +1,23 @@
+language: java
+jdk:
+- oraclejdk8
+cache:
+  directories:
+  - "$HOME/.m2"
+script:
+- mvn test
+- mvn jacoco:report
+- mvn coveralls:report -DrepoToken="${COVERALLS_TOKEN}"
+install:
+- export SOURCE=`pwd`
+before_deploy:
+- mvn clean package
+- mkdir releases
+- mv  $SOURCE/target/*.jar releases/
+deploy:
+  provider: releases
+  api_key: "$GITHUB_TOKEN"
+  skip-cleanup: true
+  file: "$SOURCE/releases/*"
+  on:
+    tags: true
