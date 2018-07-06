@@ -1,9 +1,11 @@
 package cn.suniper.mesh.transport;
 
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
 /**
  * @author Rao Mengnan
@@ -55,9 +57,15 @@ public enum TransportConfigKey {
         } else if (type == int.class || type == Integer.class) {
             return Integer.valueOf(String.valueOf(val));
         } else if (type == List.class) {
+            if (List.class.isAssignableFrom(val.getClass())) {
+                return val;
+            } else if (val.getClass() == String[].class) {
+                String[] args = (String[]) val;
+                return Arrays.asList(args);
+            }
             String listStr = String.valueOf(val);
             String[] values = listStr.split(",");
-            return Arrays.asList(values);
+            return Arrays.stream(values).map(String::trim).collect(Collectors.toList());
         }
         return val;
     }

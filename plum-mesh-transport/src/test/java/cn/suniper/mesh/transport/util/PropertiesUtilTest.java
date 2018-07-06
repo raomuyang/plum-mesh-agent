@@ -20,14 +20,14 @@ public class PropertiesUtilTest {
         properties.put(TransportConfigKey.SOCKET_CHANNEL_TYPE.propName(), "io.netty.channel.socket.nio.NioSocketChannel");
         properties.put(TransportConfigKey.WORKERS.propName(), 4);
         properties.put(TransportConfigKey.MAX_POOL_CONN.propName(), 30);
-        properties.put(TransportConfigKey.CHANNEL_PIPELINES.propName(), "a,b,c");
+        properties.put(TransportConfigKey.CHANNEL_PIPELINES.propName(), "a, b, c");
 
         NettyClientProperties clientProperties = PropertiesUtil.getClientPropFromProperties(properties);
         assertEquals(properties.get(TransportConfigKey.GROUP_EVENT_TYPE.propName()), clientProperties.getGroupEventType());
         assertEquals(properties.get(TransportConfigKey.SOCKET_CHANNEL_TYPE.propName()), clientProperties.getSocketChannelType());
         assertEquals(properties.get(TransportConfigKey.WORKERS.propName()), clientProperties.getWorkers());
         assertEquals(properties.get(TransportConfigKey.MAX_POOL_CONN.propName()), clientProperties.getMaxPoolConn());
-        assertEquals(properties.getProperty(TransportConfigKey.CHANNEL_PIPELINES.propName()), String.join(",", clientProperties.getChannelPipelines()));
+        assertEquals(properties.getProperty(TransportConfigKey.CHANNEL_PIPELINES.propName()), String.join(", ", clientProperties.getChannelPipelines()));
 
     }
 

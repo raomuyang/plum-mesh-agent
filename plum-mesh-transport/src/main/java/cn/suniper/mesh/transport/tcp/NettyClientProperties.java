@@ -53,4 +53,40 @@ public class NettyClientProperties {
         this.channelPipelines = channelPipelines;
     }
 
+    @Override
+    public String toString() {
+        return "NettyClientProperties{" +
+                "groupEventType='" + groupEventType + '\'' +
+                ", socketChannelType='" + socketChannelType + '\'' +
+                ", workers=" + workers +
+                ", maxPoolConn=" + maxPoolConn +
+                ", channelPipelines=" + channelPipelines +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        NettyClientProperties that = (NettyClientProperties) o;
+
+        if (workers != that.workers) return false;
+        if (maxPoolConn != that.maxPoolConn) return false;
+        if (groupEventType != null ? !groupEventType.equals(that.groupEventType) : that.groupEventType != null)
+            return false;
+        if (socketChannelType != null ? !socketChannelType.equals(that.socketChannelType) : that.socketChannelType != null)
+            return false;
+        return channelPipelines != null ? channelPipelines.equals(that.channelPipelines) : that.channelPipelines == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = groupEventType != null ? groupEventType.hashCode() : 0;
+        result = 31 * result + (socketChannelType != null ? socketChannelType.hashCode() : 0);
+        result = 31 * result + workers;
+        result = 31 * result + maxPoolConn;
+        result = 31 * result + (channelPipelines != null ? channelPipelines.hashCode() : 0);
+        return result;
+    }
 }
