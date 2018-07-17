@@ -37,10 +37,6 @@ public class PlumApplication {
 
     private static Log log = LogFactory.getLog(PlumApplication.class);
 
-    public static void main(String[] args) throws Exception {
-        PlumApplication.launch(new PlumApplication());
-        Thread.sleep(1000);
-    }
     public static PlumContext launch(Object primary, String... args) throws Exception {
         try {
             AppParameters parameters = AppParameters.parser(args);
