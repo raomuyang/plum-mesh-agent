@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.Properties;
+import java.util.UUID;
 
 /**
  * @author Rao Mengnan
@@ -126,6 +127,12 @@ public class ConfigManager {
             }
 
         });
+
+        if (application.isAsProvider() && providerInfo.getName() == null) {
+            String id = UUID.randomUUID().toString();
+            String name = String.format("%s-%s", application.getProviderInfo(), id);
+            providerInfo.setName(name);
+        }
 
         ConfigurationManager.loadProperties(properties);
         ribbonClientConfig = new DefaultClientConfigImpl();
