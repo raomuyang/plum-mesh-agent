@@ -13,8 +13,6 @@ public class Application {
 
     private String serverGroup;
 
-    private boolean asProvider;
-
     public Application() {
     }
 
@@ -22,14 +20,6 @@ public class Application {
         this.registryUrlList = registryUrlList;
         this.providerInfo = providerInfo;
         this.serverGroup = serverGroup;
-    }
-
-    public boolean isAsProvider() {
-        return asProvider;
-    }
-
-    public void setAsProvider(boolean asProvider) {
-        this.asProvider = asProvider;
     }
 
     public String getServerGroup() {

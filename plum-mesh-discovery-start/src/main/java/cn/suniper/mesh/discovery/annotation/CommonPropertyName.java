@@ -17,8 +17,7 @@ public enum CommonPropertyName {
     LISTEN_IP("host", "host",String.class),
     LISTEN_PORT("port", "port",int.class),
     PROVIDER_WEIGHT("weight", "weight",int.class),
-    VERSION("version", "version",int.class),
-    ENABLE_PROVIDER("provider.enable", "asProvider", boolean.class);
+    VERSION("version", "version",int.class);
 
 
     private static Map<String, CommonPropertyName> map = new ConcurrentHashMap<>();

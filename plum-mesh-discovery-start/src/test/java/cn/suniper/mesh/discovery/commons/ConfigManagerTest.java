@@ -43,7 +43,6 @@ public class ConfigManagerTest {
 
         Application application = manager.getApplication();
         assertEquals("test", application.getServerGroup());
-        assertTrue(application.isAsProvider());
         assertEquals(1, application.getRegistryUrlList().size());
 
         ProviderInfo providerInfo = application.getProviderInfo();

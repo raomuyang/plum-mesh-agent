@@ -32,7 +32,6 @@ import java.util.Optional;
  * @author Rao Mengnan
  *         on 2018/7/5.
  */
-@AsProvider
 public class PlumApplication {
 
     private static Log log = LogFactory.getLog(PlumApplication.class);
@@ -68,8 +67,7 @@ public class PlumApplication {
         context
                 .setConfigManager(configManager)
                 .initPlumApp();
-        Application application = configManager.getApplication();
-        if (Optional.ofNullable(application).map(Application::isAsProvider).orElse(false)) {
+        if (!context.isAsServiceProvider()) {
             checkAndInitClient(context, parameters, configManager);
         } else {
             registerProvider(context);
