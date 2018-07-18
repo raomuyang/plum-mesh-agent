@@ -11,17 +11,17 @@ public class Application {
 
     private ProviderInfo providerInfo;
 
-    private String name;
+    private String serverGroup;
 
     private boolean asProvider;
 
     public Application() {
     }
 
-    public Application(List<String> registryUrlList, ProviderInfo providerInfo, String name) {
+    public Application(List<String> registryUrlList, ProviderInfo providerInfo, String serverGroup) {
         this.registryUrlList = registryUrlList;
         this.providerInfo = providerInfo;
-        this.name = name;
+        this.serverGroup = serverGroup;
     }
 
     public boolean isAsProvider() {
@@ -32,12 +32,12 @@ public class Application {
         this.asProvider = asProvider;
     }
 
-    public String getName() {
-        return name;
+    public String getServerGroup() {
+        return serverGroup;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setServerGroup(String serverGroup) {
+        this.serverGroup = serverGroup;
     }
 
     public List<String> getRegistryUrlList() {

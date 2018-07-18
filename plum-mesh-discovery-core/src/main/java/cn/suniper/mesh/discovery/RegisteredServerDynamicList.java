@@ -18,6 +18,8 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
+ * 通过kvStore动态更新并提供可用服务的列表
+ *
  * @author Rao Mengnan
  *         on 2018/6/10.
  */
@@ -27,42 +29,64 @@ public class RegisteredServerDynamicList implements ServerList<RegisteredServer>
 
     private KVStore store;
     private String parentNode;
-    private String appName;
+    private String serverGroup;
     private Map<String, ProviderInfo> providerMap;
 
     public RegisteredServerDynamicList(KVStore store, Application application) {
         this(store, Optional.ofNullable(application)
-                .map(Application::getName)
+                .map(Application::getServerGroup)
                 .orElse(null));
     }
 
-    public RegisteredServerDynamicList(KVStore store, String applicationName) {
-        if (applicationName == null) throw new IllegalArgumentException("application must be not null");
+    public RegisteredServerDynamicList(KVStore store, String serverGroup) {
+        if (serverGroup == null) throw new IllegalArgumentException("serverGroup must be not null");
         this.store = store;
-        this.appName = applicationName;
+        this.serverGroup = serverGroup;
 
         this.providerMap = new ConcurrentHashMap<>();
-        this.parentNode = String.join("/", Constants.STORE_ROOT, appName);
+        this.parentNode = String.join("/", Constants.STORE_ROOT, this.serverGroup);
     }
 
-    public Collection<ProviderInfo> getServiceList() {
-        return providerMap.values();
-    }
 
+    /**
+     * 获取绑定了KvStore的ServerListUpdater，可用于更新DynamicList
+     * @return {@link RegistryServerListUpdater}
+     */
     public ServerListUpdater getKvStoreBasedUpdater() {
         return new RegistryServerListUpdater(store, parentNode, providerMap);
     }
 
+    /**
+     * 获取绑定了KvStore的ServerListUpdater，可用于更新DynamicList
+     * @param executorService 指定自定义的ExecutorService，否则的话会在默认的{@link java.util.concurrent.ThreadPoolExecutor}中执行
+     * @return {@link RegistryServerListUpdater}
+     */
     public ServerListUpdater getKvStoreBasedUpdater(ExecutorService executorService) {
         return new RegistryServerListUpdater(store, parentNode, providerMap)
                 .setExecutorService(executorService);
     }
 
+    /**
+     * 获取缓存的Server list，不会从kvStore中获取更新
+     * @return 本地缓存的记录
+     */
+    public Collection<ProviderInfo> getCachedListOfServers() {
+        return providerMap.values();
+    }
+
+    /**
+     * 从kvStore中获取初始的Server list，更新本地缓存
+     * @return 最新的服务列表
+     */
     @Override
     public List<RegisteredServer> getInitialListOfServers() {
         return obtainServerListByKvStore();
     }
 
+    /**
+     * 从kvStore中获取更新后的Server list，并更新本地缓存
+     * @return 最新的服务列表
+     */
     @Override
     public List<RegisteredServer> getUpdatedListOfServers() {
         return obtainServerListByKvStore();
@@ -99,7 +123,7 @@ public class RegisteredServerDynamicList implements ServerList<RegisteredServer>
     private List<RegisteredServer> map2ServerList(Stream<ProviderInfo> stream) {
         return stream
                 .filter(Objects::nonNull)
-                .map(i -> new RegisteredServer(appName, i))
+                .map(i -> new RegisteredServer(serverGroup, i))
                 .collect(Collectors.toList());
     }
 }

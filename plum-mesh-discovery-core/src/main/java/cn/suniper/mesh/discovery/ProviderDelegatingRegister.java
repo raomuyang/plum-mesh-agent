@@ -25,7 +25,7 @@ public class ProviderDelegatingRegister {
     }
 
     public void register() throws Exception {
-        String parentNode = String.join("/", Constants.STORE_ROOT, application.getName());
+        String parentNode = String.join("/", Constants.STORE_ROOT, application.getServerGroup());
         ProviderInfo providerInfo = Optional.ofNullable(application.getProviderInfo())
                 .orElse(new ProviderInfo());
 
