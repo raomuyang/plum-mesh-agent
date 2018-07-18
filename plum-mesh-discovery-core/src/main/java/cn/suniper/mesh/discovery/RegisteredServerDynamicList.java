@@ -10,12 +10,10 @@ import com.netflix.loadbalancer.ServerListUpdater;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -33,15 +31,13 @@ public class RegisteredServerDynamicList implements ServerList<RegisteredServer>
     private Map<String, ProviderInfo> providerMap;
 
     public RegisteredServerDynamicList(KVStore store, Application application) {
-        if (application == null) throw new IllegalArgumentException("application must be not null");
-        init(store, application.getName());
+        this(store, Optional.ofNullable(application)
+                .map(Application::getName)
+                .orElse(null));
     }
 
     public RegisteredServerDynamicList(KVStore store, String applicationName) {
-        init(store, applicationName);
-    }
-
-    private void init(KVStore store, String applicationName) {
+        if (applicationName == null) throw new IllegalArgumentException("application must be not null");
         this.store = store;
         this.appName = applicationName;
 
@@ -53,32 +49,51 @@ public class RegisteredServerDynamicList implements ServerList<RegisteredServer>
         return providerMap.values();
     }
 
-    public ServerListUpdater getUpdater() {
+    public ServerListUpdater getKvStoreBasedUpdater() {
         return new RegistryServerListUpdater(store, parentNode, providerMap);
     }
 
-    public ServerListUpdater getUpdater(ExecutorService executorService) {
+    public ServerListUpdater getKvStoreBasedUpdater(ExecutorService executorService) {
         return new RegistryServerListUpdater(store, parentNode, providerMap)
                 .setExecutorService(executorService);
     }
 
     @Override
     public List<RegisteredServer> getInitialListOfServers() {
-        try {
-            List<Node> nodeInfoList = store.list(parentNode);
-            Stream<ProviderInfo> stream = nodeInfoList.stream().map(node ->
-                    providerMap.computeIfAbsent(node.getKey(), k -> MapperUtil.node2Provider(node)));
-            return map2ServerList(stream);
-
-        } catch (Exception e) {
-            log.warn(String.format("get initial list of servers failed: %s", parentNode), e);
-            return Lists.newArrayList();
-        }
+        return obtainServerListByKvStore();
     }
 
     @Override
     public List<RegisteredServer> getUpdatedListOfServers() {
-        return map2ServerList(providerMap.values().stream());
+        return obtainServerListByKvStore();
+    }
+
+    List<RegisteredServer> obtainServerListByKvStore() {
+        Set<String> newKeys = new HashSet<>();
+        Consumer<Node> collectNewNodesToSet = node -> newKeys.add(node.getKey());
+
+        try {
+            List<Node> nodeInfoList = store.list(parentNode);
+            Stream<ProviderInfo> stream = nodeInfoList
+                    .stream()
+                    .peek(collectNewNodesToSet)
+                    .map(node -> providerMap.computeIfAbsent(
+                            node.getKey(), k -> MapperUtil.node2Provider(node)));
+
+            providerMap.keySet()
+                    .parallelStream()
+                    .filter(k -> !newKeys.contains(k))
+                    .forEach(k -> providerMap.remove(k));
+            return map2ServerList(stream);
+
+        } catch (Exception e) {
+            log.warn(String.format("failed to obtain list of servers: %s", parentNode), e);
+            return Lists.newArrayList();
+        }
+    }
+
+    Map<String, ProviderInfo> getProviderMap() {
+        return providerMap;
     }
 
     private List<RegisteredServer> map2ServerList(Stream<ProviderInfo> stream) {

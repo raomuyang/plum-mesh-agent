@@ -12,7 +12,11 @@ import org.apache.commons.logging.LogFactory;
 import java.util.Date;
 import java.util.Map;
 import java.util.Optional;
-import java.util.concurrent.*;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
@@ -22,7 +26,7 @@ import java.util.function.Supplier;
  * @author Rao Mengnan
  *         on 2018/6/11.
  */
-class RegistryServerListUpdater implements ServerListUpdater {
+public class RegistryServerListUpdater implements ServerListUpdater {
 
     private static final int DEFAULT_CORE_POOL_SIZE = 2;
     private static final int DEFAULT_QUEUE_SIZE = 1000;
@@ -54,7 +58,7 @@ class RegistryServerListUpdater implements ServerListUpdater {
     private final AtomicLong lastUpdated = new AtomicLong(System.currentTimeMillis());
     private ExecutorService executorService;
 
-    RegistryServerListUpdater(KVStore store, String parentNode, Map<String, ProviderInfo> providerInfoMap) {
+    public RegistryServerListUpdater(KVStore store, String parentNode, Map<String, ProviderInfo> providerInfoMap) {
         this.store = store;
         this.parentNode = parentNode;
         this.providerInfoMap = providerInfoMap;

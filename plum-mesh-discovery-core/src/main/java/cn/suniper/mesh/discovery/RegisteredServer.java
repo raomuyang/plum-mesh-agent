@@ -38,5 +38,12 @@ public class RegisteredServer extends Server {
         };
     }
 
+    @Override
+    public MetaInfo getMetaInfo() {
+        return metaInfo;
+    }
 
+    public ProviderInfo getProviderInfo() {
+        return providerInfo;
+    }
 }
