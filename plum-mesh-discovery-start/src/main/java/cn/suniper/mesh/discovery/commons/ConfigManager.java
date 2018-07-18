@@ -114,7 +114,7 @@ public class ConfigManager {
             try {
                 switch (prop) {
                     case ENABLE_PROVIDER:
-                    case APP_NAME:
+                    case SERVER_GROUP:
                     case REGISTRY_LIST:
                         BeanUtils.setProperty(application, prop.fieldName(), value);
                         break;
@@ -126,10 +126,6 @@ public class ConfigManager {
             }
 
         });
-
-        if (application.isAsProvider()) {
-            providerInfo.setName(application.getName());
-        }
 
         ConfigurationManager.loadProperties(properties);
         ribbonClientConfig = new DefaultClientConfigImpl();

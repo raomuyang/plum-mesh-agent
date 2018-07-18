@@ -66,7 +66,7 @@ public class PlumContext {
         if (asServiceProvider) {
             register = new ProviderDelegatingRegister(kvStore, application);
         } else {
-            dynamicList = new RegisteredServerDynamicList(kvStore, application.getName());
+            dynamicList = new RegisteredServerDynamicList(kvStore, application.getServerGroup());
         }
     }
 

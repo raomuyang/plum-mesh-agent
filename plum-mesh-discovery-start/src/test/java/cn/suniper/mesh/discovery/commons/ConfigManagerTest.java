@@ -42,12 +42,12 @@ public class ConfigManagerTest {
         assertEquals("plum", iClientConfig.getClientName());
 
         Application application = manager.getApplication();
-        assertEquals("test", application.getName());
+        assertEquals("test", application.getServerGroup());
         assertTrue(application.isAsProvider());
         assertEquals(1, application.getRegistryUrlList().size());
 
         ProviderInfo providerInfo = application.getProviderInfo();
-        assertEquals("test", providerInfo.getName());
+        assertEquals("testApp", providerInfo.getName());
         assertNull(providerInfo.getIp());
         assertEquals(8080, providerInfo.getPort());
         assertEquals(0, providerInfo.getVersion());
