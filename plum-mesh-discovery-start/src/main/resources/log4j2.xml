@@ -6,6 +6,7 @@
         </Console>
     </Appenders>
     <Loggers>
+        <logger name="org.apache" level="error" />
         <Root level="DEBUG">
             <AppenderRef ref="STDOUT"/>
         </Root>
