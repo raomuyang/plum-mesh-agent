@@ -66,13 +66,13 @@ public class PlumContext {
         }
 
         if (asServiceProvider) {
-            register = new ProviderDelegatingRegister(kvStore, application);
             ProviderInfo providerInfo = application.getProviderInfo();
             if (providerInfo.getName() == null) {
                 String id = UUID.randomUUID().toString();
                 String name = String.format("%s-%s", application.getProviderInfo(), id);
                 providerInfo.setName(name);
             }
+            register = new ProviderDelegatingRegister(kvStore, application);
         } else {
             dynamicList = new RegisteredServerDynamicList(kvStore, application.getServerGroup());
         }

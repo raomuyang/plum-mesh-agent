@@ -173,7 +173,7 @@ public class PlumApplication {
             if (kvStoreBean != null) {
                 try {
                     m.setAccessible(true);
-                    return m.invoke(null);
+                    return m.invoke(primary);
                 } catch (IllegalAccessException | InvocationTargetException e) {
                     log.warn("The kv store cannot be initialized: " + e.getMessage());
                     log.debug(e);
