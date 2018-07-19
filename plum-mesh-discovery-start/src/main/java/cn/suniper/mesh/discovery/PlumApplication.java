@@ -27,6 +27,7 @@ import org.kohsuke.args4j.CmdLineException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Optional;
+import java.util.function.Supplier;
 
 /**
  * @author Rao Mengnan
@@ -60,6 +61,10 @@ public class PlumApplication {
             log.error(e.getMessage());
             throw new IllegalArgumentException(e);
         }
+    }
+
+    public static PlumContext launch(Object primary, ConfigManager configManager) throws Exception {
+        return launch(primary, null, configManager);
     }
 
     public static PlumContext launch(Object primary, AppParameters parameters, ConfigManager configManager) throws Exception {
@@ -106,28 +111,42 @@ public class PlumApplication {
 
         ClientTypeEnum clientType;
         IClient client;
-        if (parameters.isAutoTcpClient()) {
-            client = new LoadBalancingHttpClient(loadBalancer, iClientConfig);
-            clientType = ClientTypeEnum.OKHTTP;
-        } else if (parameters.isAutoTcpClient() || configManager.hasPlumTcpConfig()) {
-            try {
-                ConnectionPoolManager poolManager = ConnectionPoolManager.initFromClientProperties(
-                        configManager.getNettyClientProperties());
-                client = new AsyncLoadBalancingTcpClient(loadBalancer, iClientConfig, poolManager);
-                clientType = ClientTypeEnum.ASYNC_TCP;
-            } catch (ClassNotFoundException e) {
-                log.error(e.getMessage());
-                throw new IllegalArgumentException("Init channel pipeline failed", e);
-            }
-        } else {
-            client = ClientFactory.getNamedClient(iClientConfig.getClientName());
-            clientType = ClientTypeEnum.DEFAULT;
+
+        Supplier<Integer> checkAndGetType = () -> configManager.hasPlumTcpConfig() ? 2 : 0;
+        int type = Optional.ofNullable(parameters)
+                .map(p -> {
+                    if (p.isOkHttpClient()) return 1;
+                    if (p.isAutoTcpClient()) return 2;
+                    return checkAndGetType.get();
+                }).orElseGet(checkAndGetType);
+
+        switch (type) {
+            case 1:
+                client = new LoadBalancingHttpClient(loadBalancer, iClientConfig);
+                clientType = ClientTypeEnum.OKHTTP;
+                break;
+            case 2:
+                try {
+                    ConnectionPoolManager poolManager = ConnectionPoolManager.initFromClientProperties(
+                            configManager.getNettyClientProperties());
+                    client = new AsyncLoadBalancingTcpClient(loadBalancer, iClientConfig, poolManager);
+                    clientType = ClientTypeEnum.ASYNC_TCP;
+                } catch (ClassNotFoundException e) {
+                    log.error(e.getMessage());
+                    throw new IllegalArgumentException("Init channel pipeline failed", e);
+                }
+                break;
+            default:
+                client = ClientFactory.getNamedClient(iClientConfig.getClientName());
+                clientType = ClientTypeEnum.DEFAULT;
         }
+
         context.putClient(clientType, client);
     }
 
     /**
      * 通过 primaryBean 初始化上下文信息，确定使用的注册中心类型及app的模式 （provider/consumer）
+     *
      * @param primary a bean that include the {@link AsProvider} annotation or {@link AsConsumer} annotation,
      *                if KvStoreBean was provided, the getter must be annotated by {@link KvStoreBean}
      * @return 初始化后的上下文信息
@@ -162,6 +181,7 @@ public class PlumApplication {
 
     /**
      * 通过入口bean获取kvStore相关的客户端连接
+     *
      * @param primary 入口
      * @return 返回kvStore 连接的实例
      */
