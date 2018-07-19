@@ -71,7 +71,7 @@ configManager.getApplication().setRegistryUrlList(
 ```
 
 #### Ribbon自动配置
-plum-mesh-agent 集成了Ribbon的功能，如果需要对ribbon的参数做一些调整，只需修改配置文件（client name 为 `plum`），例如：
+pma 集成了Ribbon的功能，如果需要对ribbon的参数做一些调整，只需修改配置文件（client name 为 `plum`），例如：
 ```properties
 # Max number of retries on the same server (excluding the first try)
 plum.ribbon.MaxAutoRetries=3
@@ -85,16 +85,24 @@ plum.ribbon.ConnectTimeout=3000
 plum.ribbon.ReadTimeout=3000
 ```
 
+若pma的初始化参数没有显式地注明初始化netty或okhttp客户端，则会通过ribbon配置初始化负载均衡客户端，具体可见ribbon的[文档](https://github.com/Netflix/ribbon/wiki/Programmers-Guide)
+
 #### 可插拔的Netty客户端自动配置
-  `plum-mesh-transport`作为组件中的一部分，netty客户端同样可以通过配置初始化，只需在`AppParameters`中将`autoTcpClient`设为`true`
-（命令行中`plum.auto.tcp=true`）
-配置示例如下：
+作为高性能的网络通信框架，netty在不少项目中都有引入，这里同样提供了对netty的支持。Netty客户端同样可以通过配置初始化，配置示例如下：
 ```properties
+# EventLoopGroup的类型，默认为NioEventLoopGroup
 plum.tcp.groupEventType=io.netty.channel.nio.NioEventLoopGroup
+# socket通道类型默认为NioSocketChannel
 plum.tcp.socketChannelType=io.netty.channel.socket.nio.NioSocketChannel
+# group工作线程数，默认为4
 plum.tcp.workers=4
+# 连接池最大的连接数，默认为20
 plum.tcp.maxPoolConn=30
+# channel pipeline从头到尾将要添加的handler
 plum.tcp.channelPipelines=io.netty.handler.codec.http.HttpClientCodec, io.netty.handler.codec.http.HttpContentDecompressor, SimpleHttpHandler
 ```
+只需在`AppParameters`中将`autoTcpClient`设为`true`
+（命令行中`plum.auto.tcp=true`），pma将自动初始化基于netty的负载均衡客户端
+
 #### OkHttp客户端
-在`AppParameters`中将`okHttpClient`设为`true` （命令行中`plum.auto.http=true`）
+只需在`AppParameters`中将`okHttpClient`设为`true` （命令行中`plum.auto.http=true`），pma的客户端即可初始化为基于OkHttp的负载均衡客户端
