@@ -25,10 +25,51 @@
 * 类级注解 `AsProvider` 或 `AsConsumer`，这两个注解告诉PlumApplication我们希望初始化哪种类型的程序：
     * `AsProvider` 表示这是一个服务提供者，那么PlumApplication会自动将当前服务在Registry中注册
     * `AsConsumer` 表示这是一个服务消费者，那么PlumApplication会通过Registry初始化一个动态服务列表，并根据配置初始化相应的负载均衡客户端
-* 方法注解`KvStoreBean`（optional），通过在一个无参的方法上标注，告诉PlumApplication我们有自己的方法提供一个`KVStore`的bean。如果找不到
+* 方法注解`KvStoreBean`（optional），通过在一个无参的方法上标注，告诉PlumApplication我们有自己的方法提供一个`KVStore`的bean（`jetcd.Client`、`ZooKeeper`等）。如果找不到
 这个注解或者方法调用失败时，PlumApplication会尝试通过配置自动初始化一个简单的KvStore实例
+```java
+import cn.suniper.mesh.discovery.annotation.*;
+
+@AsProvider
+class SamplePrimaryClassAsProvider {
+    
+    @KvStoreBean
+    public org.apache.zookeeper.ZooKeeper getZkClient() {
+        // do any thing
+        return obj;
+    }
+}
+
+@AsConsumer
+class SamplePrimaryClassAsProvider {
+    
+    @KvStoreBean
+    public com.coreos.jetcd.Client getEtcdClient() {
+        // do any thing
+        return obj;
+    }
+}
+```
   初始化完成后即可获得`PlumContext`信息，记录了动态服务列表、负载均衡客户端等信息，如果是以`AsConsumer`运行，可以从context中获取客户端用于其它操作。
   
+##### 从配置初始化KvStore对应的的客户端
+
+当无需从primary object中获取定制化的KvStore客户端，可以直接通过配置简单地初始化相应的客户端：
+```properties
+plum.registries=192.168.1.111:2171,192.168.1.112:2171,192.168.1.113:2171
+```
+或者直接设置`Application`的RegistryList：
+```java
+ConfigManager configManager = ConfigManager.newBuilder().build();
+configManager.getApplication().setRegistryUrlList(
+              java.util.Arrays.asList(
+                      "192.168.1.111:2171", 
+                      "192.168.1.112:2171",
+                      "192.168.1.113:2171"
+              )
+      );
+```
+
 #### Ribbon自动配置
 plum-mesh-agent 集成了Ribbon的功能，如果需要对ribbon的参数做一些调整，只需修改配置文件（client name 为 `plum`），例如：
 ```properties
