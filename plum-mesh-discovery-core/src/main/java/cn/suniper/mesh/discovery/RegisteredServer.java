@@ -12,18 +12,18 @@ public class RegisteredServer extends Server {
     private ProviderInfo providerInfo;
     private MetaInfo metaInfo;
 
-    public RegisteredServer(final String appName, ProviderInfo info) {
+    public RegisteredServer(final String serverGroup, ProviderInfo info) {
         super(info.getIp(), info.getPort());
         this.providerInfo = info;
         this.metaInfo = new MetaInfo() {
             @Override
             public String getAppName() {
-                return appName;
+                return info.getName();
             }
 
             @Override
             public String getServerGroup() {
-                return null;
+                return serverGroup;
             }
 
             @Override
@@ -38,5 +38,12 @@ public class RegisteredServer extends Server {
         };
     }
 
+    @Override
+    public MetaInfo getMetaInfo() {
+        return metaInfo;
+    }
 
+    public ProviderInfo getProviderInfo() {
+        return providerInfo;
+    }
 }

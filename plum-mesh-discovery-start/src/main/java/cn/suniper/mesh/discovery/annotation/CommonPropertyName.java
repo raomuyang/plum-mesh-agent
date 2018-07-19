@@ -12,12 +12,12 @@ public enum CommonPropertyName {
     RIBBON_CLIENT_NAME("plum", "",Object.class),
     PREFIX("plum.app", "",Object.class),
     APP_NAME("name", "name",String.class),
+    SERVER_GROUP("group", "serverGroup", String.class),
     REGISTRY_LIST("registries", "registryUrlList",List.class),
     LISTEN_IP("host", "host",String.class),
     LISTEN_PORT("port", "port",int.class),
     PROVIDER_WEIGHT("weight", "weight",int.class),
-    VERSION("version", "version",int.class),
-    ENABLE_PROVIDER("provider.enable", "asProvider", boolean.class);
+    VERSION("version", "version",int.class);
 
 
     private static Map<String, CommonPropertyName> map = new ConcurrentHashMap<>();

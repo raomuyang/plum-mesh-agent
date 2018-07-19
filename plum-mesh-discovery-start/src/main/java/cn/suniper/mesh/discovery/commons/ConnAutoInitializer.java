@@ -87,7 +87,7 @@ public class ConnAutoInitializer {
                 Class<? extends KVStore> type = provider.getType();
                 try {
                     assert type != null;
-                    constructor = type.getConstructor(Client.class);
+                    constructor = type.getConstructor(ZooKeeper.class);
                 } catch (NoSuchMethodException e) {
                     throw new RuntimeException(e);
                 }

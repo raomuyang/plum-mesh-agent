@@ -12,17 +12,28 @@ import org.apache.commons.logging.LogFactory;
 import java.util.Date;
 import java.util.Map;
 import java.util.Optional;
-import java.util.concurrent.*;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 /**
+ * 服务列表更新器，通过kvStore对子节点的监控，实时更新服务列表
+ * RegistryServerListUpdater绑定一个providerInfoMap，这个map必须是线程安全的。
+ * 每个updater实例启动更新时，会通过watcher监听/conf/suniper/{@code serverGroup}下的子节点。
+ * {@link RegistryServerListUpdater#start(UpdateAction)}的调用是幂等的。
+ * 默认情况下，每个updater启动後会运行在守护线程中，当然也可以通过{@link RegistryServerListUpdater#setExecutorService(ExecutorService)}自定义运行时的线程
+ * 默认情况下出错不会做任何处理，如有需要可以通过{@link RegistryServerListUpdater#setOnError(Consumer)} 设置
+ *
  * @author Rao Mengnan
  *         on 2018/6/11.
  */
-class RegistryServerListUpdater implements ServerListUpdater {
+public class RegistryServerListUpdater implements ServerListUpdater {
 
     private static final int DEFAULT_CORE_POOL_SIZE = 2;
     private static final int DEFAULT_QUEUE_SIZE = 1000;
@@ -54,7 +65,7 @@ class RegistryServerListUpdater implements ServerListUpdater {
     private final AtomicLong lastUpdated = new AtomicLong(System.currentTimeMillis());
     private ExecutorService executorService;
 
-    RegistryServerListUpdater(KVStore store, String parentNode, Map<String, ProviderInfo> providerInfoMap) {
+    public RegistryServerListUpdater(KVStore store, String parentNode, Map<String, ProviderInfo> providerInfoMap) {
         this.store = store;
         this.parentNode = parentNode;
         this.providerInfoMap = providerInfoMap;
@@ -66,6 +77,10 @@ class RegistryServerListUpdater implements ServerListUpdater {
         return this;
     }
 
+    public RegistryServerListUpdater setOnError(Consumer<Throwable> onError) {
+        this.onError = onError;
+        return this;
+    }
 
     @Override
     public void start(UpdateAction updateAction) {

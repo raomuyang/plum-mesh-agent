@@ -20,6 +20,17 @@ public class ProviderInfo {
         this.version = version;
     }
 
+    public ProviderInfo(String name, String ip, int port) {
+        this.name = name;
+        this.ip = ip;
+        this.port = port;
+    }
+
+    public ProviderInfo(String name, int port) {
+        this.name = name;
+        this.port = port;
+    }
+
     public ProviderInfo() {
     }
 
