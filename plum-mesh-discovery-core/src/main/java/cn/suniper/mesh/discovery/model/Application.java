@@ -16,6 +16,11 @@ public class Application {
     public Application() {
     }
 
+    public Application(List<String> registryUrlList, String serverGroup) {
+        this.registryUrlList = registryUrlList;
+        this.serverGroup = serverGroup;
+    }
+
     public Application(List<String> registryUrlList, ProviderInfo providerInfo, String serverGroup) {
         this.registryUrlList = registryUrlList;
         this.providerInfo = providerInfo;
