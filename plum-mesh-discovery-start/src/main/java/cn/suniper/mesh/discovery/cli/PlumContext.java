@@ -30,7 +30,8 @@ public class PlumContext {
     // KvStore的客户端连接
     private Object kvStoreSource;
     // 客户端类型与实例映射
-    private Map<ClientTypeEnum, IClient> clientMap;
+    private ClientTypeEnum clientType;
+    private IClient client;
 
     private ProviderDelegatingRegister register;
     private RegisteredServerDynamicList dynamicList;
@@ -39,8 +40,6 @@ public class PlumContext {
     public PlumContext(boolean asServiceProvider, KvSource.Provider providerType) {
         this.asServiceProvider = asServiceProvider;
         this.providerType = providerType;
-
-        this.clientMap = new HashMap<>();
     }
 
     public void initPlumApp() throws InterruptedException, IOException, ClassNotFoundException {
@@ -109,10 +108,15 @@ public class PlumContext {
     }
 
     public void putClient(ClientTypeEnum clientType, IClient client) {
-        clientMap.put(clientType, client);
+        this.client = client;
+        this.clientType = clientType;
     }
 
-    public IClient getClient(ClientTypeEnum clientType) {
-        return clientMap.get(clientType);
+    public IClient getClient() {
+        return client;
+    }
+
+    public ClientTypeEnum getClientType() {
+        return clientType;
     }
 }
