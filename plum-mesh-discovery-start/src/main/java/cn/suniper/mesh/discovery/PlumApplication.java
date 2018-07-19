@@ -9,7 +9,6 @@ import cn.suniper.mesh.discovery.cli.AppParameters;
 import cn.suniper.mesh.discovery.cli.PlumContext;
 import cn.suniper.mesh.discovery.commons.ConfigManager;
 import cn.suniper.mesh.discovery.commons.KvSource;
-import cn.suniper.mesh.discovery.model.Application;
 import cn.suniper.mesh.transport.http.LoadBalancingHttpClient;
 import cn.suniper.mesh.transport.tcp.AsyncLoadBalancingTcpClient;
 import cn.suniper.mesh.transport.tcp.ConnectionPoolManager;
@@ -112,13 +111,12 @@ public class PlumApplication {
         ClientTypeEnum clientType;
         IClient client;
 
-        Supplier<Integer> checkAndGetType = () -> configManager.hasPlumTcpConfig() ? 2 : 0;
         int type = Optional.ofNullable(parameters)
                 .map(p -> {
                     if (p.isOkHttpClient()) return 1;
                     if (p.isAutoTcpClient()) return 2;
-                    return checkAndGetType.get();
-                }).orElseGet(checkAndGetType);
+                    return 0;
+                }).orElse(0);
 
         switch (type) {
             case 1:
