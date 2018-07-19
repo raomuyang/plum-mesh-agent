@@ -43,6 +43,10 @@ public class ConfigManager {
 
     }
 
+    public static Builder newBuilder() {
+        return new Builder();
+    }
+
     public static class Builder {
         ConfigManager configManager;
         private Builder() {
@@ -113,8 +117,7 @@ public class ConfigManager {
             Object value = safeGetValue(prop, key);
             try {
                 switch (prop) {
-                    case ENABLE_PROVIDER:
-                    case APP_NAME:
+                    case SERVER_GROUP:
                     case REGISTRY_LIST:
                         BeanUtils.setProperty(application, prop.fieldName(), value);
                         break;
@@ -126,10 +129,6 @@ public class ConfigManager {
             }
 
         });
-
-        if (application.isAsProvider()) {
-            providerInfo.setName(application.getName());
-        }
 
         ConfigurationManager.loadProperties(properties);
         ribbonClientConfig = new DefaultClientConfigImpl();

@@ -2,9 +2,11 @@ package cn.suniper.mesh.discovery;
 
 import cn.suniper.mesh.discovery.model.Application;
 import cn.suniper.mesh.discovery.model.ProviderInfo;
+import cn.suniper.mesh.discovery.util.HostUtil;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import java.net.InetAddress;
 import java.util.Optional;
 
 /**
@@ -25,10 +27,18 @@ public class ProviderDelegatingRegister {
     }
 
     public void register() throws Exception {
-        String parentNode = String.join("/", Constants.STORE_ROOT, application.getName());
+        String parentNode = String.join("/", Constants.STORE_ROOT, application.getServerGroup());
         ProviderInfo providerInfo = Optional.ofNullable(application.getProviderInfo())
                 .orElse(new ProviderInfo());
 
+        if (providerInfo.getIp() == null) {
+            InetAddress address = HostUtil.getLocalIv4Address();
+            if (address != null) providerInfo.setIp(address.getHostAddress());
+            else throw new IllegalStateException("cannot get local host IP address");
+        }
+        if (providerInfo.getPort() == 0 || providerInfo.getName() == null) {
+            throw new IllegalArgumentException("please check you provider info");
+        }
         String storeValue = String.format("%s/%s/%s",
                 providerInfo.getIp(),
                 providerInfo.getPort(),
