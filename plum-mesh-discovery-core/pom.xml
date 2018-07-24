@@ -4,10 +4,15 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <artifactId>plum-mesh-agent</artifactId>
-        <groupId>cn.suniper</groupId>
-        <version>1.0-SNAPSHOT</version>
+        <groupId>cn.suniper.pma</groupId>
+        <version>1.0.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
+
+    <description>
+        A convenient and efficient service discovery and network communication middleware.
+        This is core module of pma
+    </description>
 
     <artifactId>plum-mesh-discovery-core</artifactId>
 
@@ -22,7 +27,6 @@
             <groupId>com.netflix.ribbon</groupId>
             <artifactId>ribbon-core</artifactId>
         </dependency>
-
 
     </dependencies>
 
