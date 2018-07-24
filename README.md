@@ -1,16 +1,19 @@
-### plum-mesh-agent
+## plum-mesh-agent
+---
 [![Build Status](https://travis-ci.org/suniper/plum-mesh-agent.svg?branch=master)](https://travis-ci.org/suniper/plum-mesh-agent)  [![Coverage Status](https://coveralls.io/repos/github/suniper/plum-mesh-agent/badge.svg?branch=master)](https://coveralls.io/github/suniper/plum-mesh-agent?branch=master)
 
 pma是便捷高效的服务发现和网络通信中间件，封装了ribbon、netty、http等工具，可以快速地实现服务注册和负载均衡。
 
-#### 模块
+### 模块
 * plum-mesh-discovery-core Service discovery核心模块
 * plum-mesh-discovery-etcd 支持基于etcd的服务发现
 * plum-mesh-discovery-zk 支持基于Zookeeper的服务发现
 * plum-mesh-transport netty、okhttp的
 * plum-mesh-discovery-start
 
-#### 快速开始
+### 快速开始
+
+> 当前版本 1.0.0
 
 以Zookeeper为例，使用 `plum-mesh-discovery-start` 快速开始一个pma程序，`plum-mesh-discovery-start`可以通过classpath中添加的依赖决定自己的行为：
 
@@ -109,7 +112,7 @@ Object primary = new SimpleClientSideLoadBalance();
     }
 ```
 
-#### 注册中心
+### 注册中心
 
 理论上所有的KV存储都可以作为注册中心，只需实现KVStore接口中的所有方法，pma目前提供了对以下服务的支持：
 
@@ -118,7 +121,7 @@ Object primary = new SimpleClientSideLoadBalance();
 
 > 将来可以陆续增加更多的注册中心的支持，比如 redis、mongo等
 
-#### Ribbon自动配置
+### Ribbon自动配置
 pma 集成了Ribbon的功能，如果需要对ribbon的参数做一些调整，只需修改配置文件（client name 为 `plum`），例如：
 ```properties
 # Max number of retries on the same server (excluding the first try)
@@ -135,7 +138,7 @@ plum.ribbon.ReadTimeout=3000
 
 若pma的初始化参数没有显式地注明初始化netty或okhttp客户端，则会通过ribbon配置初始化负载均衡客户端，具体可见ribbon的[文档](https://github.com/Netflix/ribbon/wiki/Programmers-Guide)
 
-#### Netty自动配置，池化连接
+### Netty自动配置，池化连接
 作为高性能的网络通信框架，netty在不少项目中都有引入，这里同样提供了对netty的支持。Netty客户端同样可以通过配置初始化，配置示例如下：
 ```properties
 # EventLoopGroup的类型，默认为NioEventLoopGroup
@@ -152,10 +155,10 @@ plum.tcp.channelPipelines=io.netty.handler.codec.http.HttpClientCodec, io.netty.
 只需在`AppParameters`中将`autoTcpClient`设为`true`
 （命令行中`plum.auto.tcp=true`），pma将自动初始化基于netty的负载均衡客户端
 
-#### OkHttp客户端
+### OkHttp客户端
 只需在`AppParameters`中将`okHttpClient`设为`true` （命令行中`plum.auto.http=true`），pma的客户端即可初始化为基于OkHttp的负载均衡客户端
 
-#### 使用负载均衡
+### 使用负载均衡
 
 `plum-mesh-transport`模块提供的tcp和http负载均衡可以单独使用，以下是一个简单的负载均衡示例：
 
