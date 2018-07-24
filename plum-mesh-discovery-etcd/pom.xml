@@ -4,18 +4,22 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <artifactId>plum-mesh-agent</artifactId>
-        <groupId>cn.suniper</groupId>
-        <version>1.0-SNAPSHOT</version>
+        <groupId>cn.suniper.pma</groupId>
+        <version>1.0.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>plum-mesh-discovery-etcd</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0.0</version>
+
+    <description>
+        A component of pma, implement the KV store built in etcd
+    </description>
 
     <dependencies>
 
         <dependency>
-            <groupId>cn.suniper</groupId>
+            <groupId>cn.suniper.pma</groupId>
             <artifactId>plum-mesh-discovery-core</artifactId>
             <scope>provided</scope>
         </dependency>
