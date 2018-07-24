@@ -4,34 +4,39 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <artifactId>plum-mesh-agent</artifactId>
-        <groupId>cn.suniper</groupId>
-        <version>1.0-SNAPSHOT</version>
+        <groupId>cn.suniper.pma</groupId>
+        <version>1.0.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>plum-mesh-discovery-start</artifactId>
 
+    <description>
+        A convenient and efficient service discovery and network communication middleware.
+        Quick start pma application by annotation or runtime environment and config
+    </description>
+
     <dependencies>
 
         <dependency>
-            <groupId>cn.suniper</groupId>
+            <groupId>cn.suniper.pma</groupId>
             <artifactId>plum-mesh-discovery-core</artifactId>
         </dependency>
 
         <dependency>
-            <groupId>cn.suniper</groupId>
+            <groupId>cn.suniper.pma</groupId>
             <artifactId>plum-mesh-discovery-etcd</artifactId>
             <scope>runtime</scope>
         </dependency>
 
         <dependency>
-            <groupId>cn.suniper</groupId>
+            <groupId>cn.suniper.pma</groupId>
             <artifactId>plum-mesh-discovery-zk</artifactId>
             <scope>runtime</scope>
         </dependency>
 
         <dependency>
-            <groupId>cn.suniper</groupId>
+            <groupId>cn.suniper.pma</groupId>
             <artifactId>plum-mesh-transport</artifactId>
         </dependency>
 
