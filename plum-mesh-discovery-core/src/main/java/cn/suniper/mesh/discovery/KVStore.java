@@ -17,6 +17,7 @@ public interface KVStore extends AutoCloseable {
      *
      * @param key 节点名称
      * @return Node info
+     * @throws Exception exception during operation
      */
     Node get(String key) throws Exception;
 
@@ -25,6 +26,7 @@ public interface KVStore extends AutoCloseable {
      *
      * @param prefix 父节点
      * @return List of Node
+     * @throws Exception exception during operation
      */
     List<Node> list(String prefix) throws Exception;
 
@@ -33,6 +35,7 @@ public interface KVStore extends AutoCloseable {
      *
      * @param prefix 父节点
      * @return List of node name
+     * @throws Exception exception during operation
      */
     List<String> listKeys(String prefix) throws Exception;
 
@@ -52,6 +55,7 @@ public interface KVStore extends AutoCloseable {
      * @param value 节点数据 （注册服务信息）
      * @param ephemeral 是否为临时节点
      * @return reversion
+     * @throws Exception exception during operation
      */
     long put(String key, String value, boolean ephemeral) throws Exception;
 
@@ -60,6 +64,7 @@ public interface KVStore extends AutoCloseable {
      * @param key 节点名称
      * @return 成功删除的节点数
      * @throws Exception IllegalArgumentException: 节点不为空
+     * @throws Exception exception during operation
      */
     long delete(String key) throws Exception;
 
@@ -74,6 +79,7 @@ public interface KVStore extends AutoCloseable {
      * 监视所有子节点的变化（不包含父节点），持续监听
      * @param key 父节点名称
      * @param consumer 子节点变化时的回调
+     * @throws Exception exception during operation
      */
     void watchChildren(String key, BiConsumer<Event, Node> consumer) throws Exception;
 
@@ -82,12 +88,14 @@ public interface KVStore extends AutoCloseable {
      * @param key 父节点名称
      * @param exitSignSupplier 提供退出信号，否则一直监听
      * @param consumer 子节点变化时的回调
+     * @throws Exception exception during operation
      */
     void watchChildren(String key, Supplier<Boolean> exitSignSupplier, BiConsumer<Event, Node> consumer) throws Exception;
 
     /**
      * 用于创建父节点（prefix）, 且为持久节点
      * @param parentNode 父节点名称
+     * @throws Exception exception during operation
      */
     void createParentNode(String parentNode) throws Exception;
 }
