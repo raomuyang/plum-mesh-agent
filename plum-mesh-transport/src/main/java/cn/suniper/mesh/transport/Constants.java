@@ -3,7 +3,7 @@ package cn.suniper.mesh.transport;
 /**
  * About vipAddress:
  *
- * {@see https://github.com/Netflix/ribbon/blob/master/ribbon-core/src/main/java/com/netflix/client/SimpleVipAddressResolver.java}
+ * @see <a href="https://github.com/Netflix/ribbon/blob/master/ribbon-core/src/main/java/com/netflix/client/SimpleVipAddressResolver.java" target="_blank"> SimpleVipAddressResolver </a>
  * {@link com.netflix.loadbalancer.LoadBalancerContext#isVipRecognized(String)}
  *
  * A "VipAddress" in Ribbon terminology is a logical name used for a target

@@ -45,6 +45,7 @@ public interface KVStore extends AutoCloseable {
      * @param key   节点名称 （配置所在目录）
      * @param value 节点数据 （注册服务信息）
      * @return reversion
+     * @throws Exception exception during operation
      */
     long put(String key, String value) throws Exception;
 
@@ -72,6 +73,7 @@ public interface KVStore extends AutoCloseable {
      * 节点是否存在
      * @param key 节点名称
      * @return true: 存在
+     * @throws Exception exception during operation
      */
     boolean exists(String key) throws Exception;
 
