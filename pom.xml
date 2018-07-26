@@ -4,12 +4,6 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <parent>
-        <groupId>org.sonatype.oss</groupId>
-        <artifactId>oss-parent</artifactId>
-        <version>9</version>
-    </parent>
-
     <groupId>cn.suniper.pma</groupId>
     <artifactId>plum-mesh-agent</artifactId>
     <packaging>pom</packaging>
@@ -20,7 +14,6 @@
     </description>
 
     <properties>
-        <mesh.version>1.0.0</mesh.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <maven.compiler.source>1.8</maven.compiler.source>
@@ -48,25 +41,25 @@
             <dependency>
                 <groupId>cn.suniper.pma</groupId>
                 <artifactId>plum-mesh-discovery-core</artifactId>
-                <version>${mesh.version}</version>
+                <version>${project.version}</version>
             </dependency>
 
             <dependency>
                 <groupId>cn.suniper.pma</groupId>
                 <artifactId>plum-mesh-discovery-etcd</artifactId>
-                <version>${mesh.version}</version>
+                <version>${project.version}</version>
             </dependency>
 
             <dependency>
                 <groupId>cn.suniper.pma</groupId>
                 <artifactId>plum-mesh-discovery-zk</artifactId>
-                <version>${mesh.version}</version>
+                <version>${project.version}</version>
             </dependency>
 
             <dependency>
                 <groupId>cn.suniper.pma</groupId>
                 <artifactId>plum-mesh-transport</artifactId>
-                <version>${mesh.version}</version>
+                <version>${project.version}</version>
             </dependency>
 
             <dependency>
@@ -168,13 +161,75 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.7.0</version>
                 <configuration>
                     <source>1.8</source>
                     <target>1.8</target>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>2.2.1</version>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar-no-fork</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>2.9.1</version>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
+
+    <distributionManagement>
+        <snapshotRepository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+        </snapshotRepository>
+        <repository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+        </repository>
+    </distributionManagement>
+
+    <profiles>
+        <profile>
+            <id>ossrh</id>
+
+            <build>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                        <version>1.6</version>
+                        <executions>
+                            <execution>
+                                <id>sign-artifacts</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>sign</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 
     <licenses>
         <license>
@@ -182,13 +237,6 @@
             <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
         </license>
     </licenses>
-
-    <scm>
-        <tag>master</tag>
-        <url>git@github.com:raomuyang/plum-mesh-agent.git</url>
-        <connection>scm:git:git@github.com:suniper/plum-mesh-agent.git</connection>
-        <developerConnection>scm:git:git@github.com:suniper/plum-mesh-agent.git</developerConnection>
-    </scm>
 
     <developers>
         <developer>
