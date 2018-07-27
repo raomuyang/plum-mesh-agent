@@ -10,7 +10,6 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>plum-mesh-discovery-etcd</artifactId>
-    <version>1.0.0</version>
 
     <description>
         A component of pma, implement the KV store built in etcd
