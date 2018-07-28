@@ -9,6 +9,8 @@ import java.io.File;
 import java.util.Optional;
 
 /**
+ * Mapper of {@link Node} and {@link ProviderInfo}
+ *
  * @author Rao Mengnan
  *         on 2018/6/11.
  */
@@ -17,6 +19,7 @@ public class MapperUtil {
     private static Log log = LogFactory.getLog(MapperUtil.class);
 
     /**
+     * Map node to providerInfo (update existing provider information)
      * ip/port[/weight] to {@link ProviderInfo}
      * @param node KvStore中的节点信息
      * @param provider 服务提供者信息
@@ -46,6 +49,11 @@ public class MapperUtil {
         provider.setVersion(node.getVersion());
     }
 
+    /**
+     * Map node to providerInfo
+     * @param node the information of node in the kv store
+     * @return {@link ProviderInfo} or null
+     */
     public static ProviderInfo node2Provider(Node node) {
         try {
             ProviderInfo provider = new ProviderInfo();

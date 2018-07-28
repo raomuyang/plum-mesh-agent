@@ -23,12 +23,19 @@ import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 /**
- * 服务列表更新器，通过kvStore对子节点的监控，实时更新服务列表
+ * Service list updater, which updates the service list in real time through kvStore monitoring of child nodes.
+ * RegistryServerListUpdater is bound to a providerInfoMap, which must be thread-safe.
+ * When each updater instance starts an update, it will listen to the child nodes under /conf/suniper/{@code serverGroup} through the watcher.
+ * The call to {@link RegistryServerListUpdater#start(UpdateAction)} is idempotent.
+ * By default, each updater will run in the daemon thread after startup. Of course, you can customize the runtime thread by {@link RegistryServerListUpdater#setExecutorService(ExecutorService)}.
+ * By default, the error will not be processed. If necessary, it can be set by {@link RegistryServerListUpdater#setOnError(Consumer)}.
+ *
+ * 服务列表更新器，通过kvStore对子节点的监控，实时更新服务列表。
  * RegistryServerListUpdater绑定一个providerInfoMap，这个map必须是线程安全的。
  * 每个updater实例启动更新时，会通过watcher监听/conf/suniper/{@code serverGroup}下的子节点。
  * {@link RegistryServerListUpdater#start(UpdateAction)}的调用是幂等的。
- * 默认情况下，每个updater启动後会运行在守护线程中，当然也可以通过{@link RegistryServerListUpdater#setExecutorService(ExecutorService)}自定义运行时的线程
- * 默认情况下出错不会做任何处理，如有需要可以通过{@link RegistryServerListUpdater#setOnError(Consumer)} 设置
+ * 默认情况下，每个updater启动後会运行在守护线程中，当然也可以通过{@link RegistryServerListUpdater#setExecutorService(ExecutorService)}自定义运行时的线程。
+ * 默认情况下出错不会做任何处理，如有需要可以通过{@link RegistryServerListUpdater#setOnError(Consumer)} 设置。
  *
  * @author Rao Mengnan
  *         on 2018/6/11.

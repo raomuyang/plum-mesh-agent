@@ -12,6 +12,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
+ * Tools for get host information
+ *
  * @author Rao Mengnan
  *         on 2018/7/18.
  */
@@ -19,7 +21,8 @@ public class HostUtil {
     private static Log log = LogFactory.getLog(HostUtil.class);
 
     /**
-     * 获取本机的IPv4P地址
+     * get local address (IPv4)
+     * 获取本机的IPv4地址
      * @return {@link InetAddress} or null
      */
     public static InetAddress getLocalIv4Address() {

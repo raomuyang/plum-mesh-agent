@@ -18,7 +18,20 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
- * 通过kvStore动态更新并提供可用服务的列表
+ *   The dynamic list created by {@link KVStore} and {@link Application#serverGroup},
+ * {@link Application#serverGroup} will be used to find the root node of the
+ * service list, and then get all available child nodes from {@link KVStore}
+ *
+ *   通过{@link KVStore}和{@link Application#serverGroup}创建的动态列表，
+ * 会使用{@link Application#serverGroup}找到服务列表的根节点，
+ * 然后从{@link KVStore}中获取所有可用的子节点
+ *
+ *  You can get the {@link ServerListUpdater} bound to {@link KVStore}
+ *  through {@link RegisteredServerDynamicList#getKvStoreBasedUpdater()},
+ *  which can be used to update the {@link ServerList}.
+ *
+ *  你可以通{@link RegisteredServerDynamicList#getKvStoreBasedUpdater()}获取绑定了{@link KVStore} 的{@link ServerListUpdater}，
+ *  可用于更新{@link ServerList}
  *
  * @author Rao Mengnan
  *         on 2018/6/10.
@@ -49,7 +62,8 @@ public class RegisteredServerDynamicList implements ServerList<RegisteredServer>
 
 
     /**
-     * 获取绑定了KvStore的ServerListUpdater，可用于更新DynamicList
+     * Get the {@link ServerListUpdater}  bound to KvStore, which can be used to update the {@link KVStore}
+     * 获取绑定了{@link ServerListUpdater} 的ServerListUpdater，可用于更新{@link KVStore}
      * @return {@link RegistryServerListUpdater}
      */
     public ServerListUpdater getKvStoreBasedUpdater() {
@@ -57,8 +71,12 @@ public class RegisteredServerDynamicList implements ServerList<RegisteredServer>
     }
 
     /**
-     * 获取绑定了KvStore的ServerListUpdater，可用于更新DynamicList
-     * @param executorService 指定自定义的ExecutorService，否则的话会在默认的{@link java.util.concurrent.ThreadPoolExecutor}中执行
+     * Get the {@link ServerListUpdater}  bound to KvStore, which can be used to update the {@link KVStore}
+     * 获取绑定了{@link ServerListUpdater} 的ServerListUpdater，可用于更新{@link KVStore}
+     *
+     * @param executorService
+     *      Specify a custom ExecutorService, otherwise it will be executed in the {@link java.util.concurrent.ThreadPoolExecutor} by default。
+     *      指定自定义的ExecutorService，否则的话会在默认的{@link java.util.concurrent.ThreadPoolExecutor}中执行
      * @return {@link RegistryServerListUpdater}
      */
     public ServerListUpdater getKvStoreBasedUpdater(ExecutorService executorService) {
@@ -67,6 +85,7 @@ public class RegisteredServerDynamicList implements ServerList<RegisteredServer>
     }
 
     /**
+     * Get cached Server list, won't get updates from kvStore
      * 获取缓存的Server list，不会从kvStore中获取更新
      * @return 本地缓存的记录
      */
@@ -75,6 +94,7 @@ public class RegisteredServerDynamicList implements ServerList<RegisteredServer>
     }
 
     /**
+     * Get the initial Server list from kvStore, update the local cache
      * 从kvStore中获取初始的Server list，更新本地缓存
      * @return 最新的服务列表
      */
@@ -84,6 +104,7 @@ public class RegisteredServerDynamicList implements ServerList<RegisteredServer>
     }
 
     /**
+     * Get the updated Server list from kvStore and update the local cache
      * 从kvStore中获取更新后的Server list，并更新本地缓存
      * @return 最新的服务列表
      */

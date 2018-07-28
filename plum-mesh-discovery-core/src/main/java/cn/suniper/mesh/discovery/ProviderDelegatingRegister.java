@@ -10,6 +10,15 @@ import java.net.InetAddress;
 import java.util.Optional;
 
 /**
+ * To register the current service with {@link ProviderDelegatingRegister},
+ * simply pass the implementation of the {@link KVStore} instance and the {@link Application} information:
+ * <p>
+ * 1. Regardless of which KV Store you use, the root node of the registration service is "/config/suniper"
+ * 2. When registering the registration service, a node named `{ServerGroup}` will be created under the root node: "/config/suniper/SERVER_GROUP"
+ * 3. The relevant service information will be stored in the child node: key: "/config/suniper/APP_NAME" -- value: "ip/port/weight"
+ * 4. The node where the service information is stored will be registered as a temporary node, and Register will remain connected as a daemon thread,
+ * so all {@link KVStore} must satisfy the client disconnection for a period of time and the node will automatically expire.
+ *
  * @author Rao Mengnan
  *         on 2018/6/11.
  */
