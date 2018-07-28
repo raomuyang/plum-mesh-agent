@@ -12,6 +12,10 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.TimeUnit;
 
 /**
+ * Netty is async client, in most cases, we handle the return value
+ * in the handler. If there is a special need for ChannelFuture,
+ * we can add a callback through the Response.
+ *
  * @author Rao Mengnan
  *         on 2018/7/2.
  */
@@ -25,7 +29,7 @@ public class AsyncTcpResponse implements IResponse {
 
     public AsyncTcpResponse(ChannelFuture future, URI uri) {
         this(future, uri, () -> {
-            if(future != null) {
+            if (future != null) {
                 future.channel().closeFuture();
                 return true;
             }

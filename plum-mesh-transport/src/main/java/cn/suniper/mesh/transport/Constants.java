@@ -1,11 +1,14 @@
 package cn.suniper.mesh.transport;
 
 /**
+ * {@link Constants#DEFAULT_VIP_ADDRESS}:
+ * <p>
  * About vipAddress:
- *
- * @see <a href="https://github.com/Netflix/ribbon/blob/master/ribbon-core/src/main/java/com/netflix/client/SimpleVipAddressResolver.java" target="_blank"> SimpleVipAddressResolver </a>
+ * <p>
+ * See <a href="https://github.com/Netflix/ribbon/blob/master/ribbon-core/src/main/java/com/netflix/client/SimpleVipAddressResolver.java" target="_blank"> SimpleVipAddressResolver </a>
+ * <p>
  * {@link com.netflix.loadbalancer.LoadBalancerContext#isVipRecognized(String)}
- *
+ * <p>
  * A "VipAddress" in Ribbon terminology is a logical name used for a target
  * server farm. This class helps interpret and resolve a "macro" and obtain a
  * finalized vipAddress.
