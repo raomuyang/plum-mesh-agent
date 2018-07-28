@@ -45,6 +45,7 @@ public interface KVStore extends AutoCloseable {
 
     /**
      * Update the data to the node and persist the storage.
+     * <p>
      * Update if the node already exists,
      * but does not modify the type of the node (temporary/persistent)
      *
@@ -57,6 +58,7 @@ public interface KVStore extends AutoCloseable {
 
     /**
      * Update data to nodes and persist storage.
+     * <p>
      * Update if the node already exists,
      * but does not modify the type of the node (temporary/persistent)
      *
@@ -69,7 +71,7 @@ public interface KVStore extends AutoCloseable {
     long put(String key, String value, boolean ephemeral) throws Exception;
 
     /**
-     * Delete the node,
+     * Delete the node
      *
      * @param key node name
      * @return Number of nodes successfully deleted
@@ -80,7 +82,9 @@ public interface KVStore extends AutoCloseable {
     long delete(String key) throws Exception;
 
     /**
-     * Whether the node exists 节点是否存在
+     * Whether the node exists
+     * <p>
+     * 节点是否存在
      *
      * @param key node name 节点名称
      * @return true: exists 存在
@@ -90,6 +94,7 @@ public interface KVStore extends AutoCloseable {
 
     /**
      * Monitor changes to all child nodes (without parent nodes), continuous monitoring
+     * <p>
      * 监视所有子节点的变化（不包含父节点），持续监听
      *
      * @param key      Name of parent node 父节点名称
@@ -101,7 +106,7 @@ public interface KVStore extends AutoCloseable {
     /**
      * Monitor the changes of all child nodes (excluding the parent node),
      * and judge whether it needs to exit the monitoring according to the exit signal.
-     *
+     * <p>
      * 监视所有子节点的变化（不包含父节点），根据退出信号判断是否需要退出监听
      *
      * @param key              Name of parent node 父节点名称
@@ -113,6 +118,7 @@ public interface KVStore extends AutoCloseable {
 
     /**
      * Used to create a parent (prefix) and a persistent node
+     * <p>
      * 用于创建父节点（prefix）, 且为持久节点
      *
      * @param parentNode Name of parent node 父节点名称

@@ -4,19 +4,20 @@ import java.util.List;
 
 /**
  * The information of service-discovery application.
- *
+ * <p>
  * Parameters list
  * <ul>
- *     <li>registryUrlList: specify the URLs to register or discovery services</li>
- *     <li>serverGroup:  the services will be registered to a registry with "serverGroup", and a client will find services from the registry by "serverGroup"</li>
- *     <li>providerInfo: see {@link ProviderInfo} </li>
+ * <li>registryUrlList: specify the URLs to register or discovery services</li>
+ * <li>serverGroup:  the services will be registered to a registry with "serverGroup", and a client will find services from the registry by "serverGroup"</li>
+ * <li>providerInfo: see {@link ProviderInfo} </li>
  * </ul>
- *
+ * <p>
  * What do we need to provide
  * <ul>
- *     <li>As a discovery-enabled service: you need provide full information that includes the {@link ProviderInfo} which is necessary for register</li>
- *     <li>As a client: you just need to provide the {@link Application#registryUrlList} and {@link Application#serverGroup}</li>
+ * <li>As a discovery-enabled service: you need provide full information that includes the {@link ProviderInfo} which is necessary for register</li>
+ * <li>As a client: you just need to provide the {@link Application#registryUrlList} and {@link Application#serverGroup}</li>
  * </ul>
+ *
  * @author Rao Mengnan
  *         on 2018/6/10.
  */
