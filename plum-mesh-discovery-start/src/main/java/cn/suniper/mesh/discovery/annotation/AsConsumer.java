@@ -8,6 +8,9 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
+ * Note that this is a service provider, then PlumApplication will
+ * automatically register the current service in the Registry.
+ *
  * @author Rao Mengnan
  *         on 2018/7/5.
  */

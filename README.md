@@ -153,10 +153,10 @@ plum.tcp.maxPoolConn=30
 plum.tcp.channelPipelines=io.netty.handler.codec.http.HttpClientCodec, io.netty.handler.codec.http.HttpContentDecompressor, SimpleHttpHandler
 ```
 只需在`AppParameters`中将`autoTcpClient`设为`true`
-（命令行中`plum.auto.tcp=true`），pma将自动初始化基于netty的负载均衡客户端
+（命令行中`--plum.auto.tcp=true`），pma将自动初始化基于netty的负载均衡客户端
 
 ### OkHttp客户端
-只需在`AppParameters`中将`okHttpClient`设为`true` （命令行中`plum.auto.http=true`），pma的客户端即可初始化为基于OkHttp的负载均衡客户端
+只需在`AppParameters`中将`okHttpClient`设为`true` （命令行中`--plum.auto.http=true`），pma的客户端即可初始化为基于OkHttp的负载均衡客户端
 
 ### 使用负载均衡
 

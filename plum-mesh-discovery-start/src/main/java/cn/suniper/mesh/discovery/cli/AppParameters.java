@@ -8,6 +8,8 @@ import org.kohsuke.args4j.Option;
 import java.io.OutputStream;
 
 /**
+ * Legal command line arguments
+ *
  * @author Rao Mengnan
  *         on 2018/7/6.
  */
@@ -44,7 +46,7 @@ public class AppParameters {
         }
 
         public Builder enableOkHttp() {
-            if (parameters.okHttpClient) throw new IllegalArgumentException("OkHttp cannot be used with AutoTcp");
+            if (parameters.autoTcpClient) throw new IllegalArgumentException("OkHttp cannot be used with AutoTcp");
             parameters.okHttpClient = true;
             return this;
         }
@@ -92,10 +94,10 @@ public class AppParameters {
         return help;
     }
 
-    private static final String CONFIG_PATH_PARAMETER = "plum.config";
-    private static final String AUTO_TCP_CLIENT_PARAMETER = "plum.auto.tcp";
-    private static final String OKHTTP_CLIENT_PARAMETER = "plum.auto.http";
-    private static final String HELP_PARAMETER = "help";
+    private static final String CONFIG_PATH_PARAMETER = "--plum.config";
+    private static final String AUTO_TCP_CLIENT_PARAMETER = "--plum.auto.tcp";
+    private static final String OKHTTP_CLIENT_PARAMETER = "--plum.auto.http";
+    private static final String HELP_PARAMETER = "--help";
     private static final String CONFIG_PATH_DESC = "specify the config path";
     private static final String AUTO_TCP_CLIENT_DESC = "auto generate tcp client by config file";
     private static final String OKHTTP_CLIENT_DESC = "auto generate http client by config file";
