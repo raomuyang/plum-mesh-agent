@@ -5,19 +5,21 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
+ * config properties
+ *
  * @author Rao Mengnan
  *         on 2018/7/6.
  */
 public enum CommonPropertyName {
-    RIBBON_CLIENT_NAME("plum", "",Object.class),
-    PREFIX("plum.app", "",Object.class),
-    APP_NAME("name", "name",String.class),
+    RIBBON_CLIENT_NAME("plum", "", Object.class),
+    PREFIX("plum.app", "", Object.class),
+    APP_NAME("name", "name", String.class),
     SERVER_GROUP("group", "serverGroup", String.class),
-    REGISTRY_LIST("registries", "registryUrlList",List.class),
-    LISTEN_IP("host", "host",String.class),
-    LISTEN_PORT("port", "port",int.class),
-    PROVIDER_WEIGHT("weight", "weight",int.class),
-    VERSION("version", "version",int.class);
+    REGISTRY_LIST("registries", "registryUrlList", List.class),
+    LISTEN_IP("host", "host", String.class),
+    LISTEN_PORT("port", "port", int.class),
+    PROVIDER_WEIGHT("weight", "weight", int.class),
+    VERSION("version", "version", int.class);
 
 
     private static Map<String, CommonPropertyName> map = new ConcurrentHashMap<>();
@@ -46,7 +48,7 @@ public enum CommonPropertyName {
 
     public static CommonPropertyName get(String value) {
         return map.computeIfAbsent(value, k -> {
-            for (CommonPropertyName prop: CommonPropertyName.values()) {
+            for (CommonPropertyName prop : CommonPropertyName.values()) {
                 if (prop.propName().equals(k)) {
                     return prop;
                 }

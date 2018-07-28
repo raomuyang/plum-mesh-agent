@@ -1,7 +1,16 @@
 package cn.suniper.mesh.discovery.model;
 
 /**
- * kv node
+ * This class corresponds to the key-value pair and version information in the node.
+ * <p>
+ * key: /config/suniper/YOUR_GROUP/SERVICE_ID
+ * <p>
+ * value: ip/port/weight
+ * <p>
+ * createReversion: czxid in zk or createReversion in etcd, etc.
+ * <p>
+ * modReversion: mzxid in zk or modReversion in etcd, etc.
+ *
  * @author Rao Mengnan
  *         on 2018/6/10.
  */

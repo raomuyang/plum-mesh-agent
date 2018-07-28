@@ -17,6 +17,10 @@ import java.util.Map;
 import java.util.UUID;
 
 /**
+ * The dynamic service list, load balancing client and other information are recorded.
+ * If it is run by {@link cn.suniper.mesh.discovery.annotation.AsConsumer}
+ * the client can be obtained from the context for other operations.
+ *
  * @author Rao Mengnan
  *         on 2018/7/5.
  */

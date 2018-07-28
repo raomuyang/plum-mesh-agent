@@ -29,6 +29,18 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
 /**
+ * Netty is a high-performance communication framework. Plum-mesh-transport is an asynchronous communication client based on netty, which can quickly launch a typical netty application.
+ * <p>
+ * By simply configuring channelPipeline, you can quickly launch a normal netty client:
+ * {@code
+ * Initializer initializer = new DefaultPipelineInitializer(Arrays.asList(
+ * HttpClientCodec.class.getName(),
+ * HttpContentDecompressor.class.getName(),
+ * "you.handler.XXXHandler"
+ * ));
+ * AsyncLoadBalancingTcpClient client = new AsyncLoadBalancingTcpClient(null, null, initializer);
+ * }
+ *
  * @author Rao Mengnan
  *         on 2018/6/21.
  */
@@ -112,10 +124,10 @@ public class AsyncLoadBalancingTcpClient extends AbstractLoadBalancerAwareClient
             return new RequestSpecificRetryHandler(false, false, this.getRetryHandler(), requestConfig);
         }
 
-        if (this.icc.get(CommonClientConfigKey.OkToRetryOnAllOperations, false)) {
+        if (this.icc != null && this.icc.get(CommonClientConfigKey.OkToRetryOnAllOperations, false)) {
             return new RequestSpecificRetryHandler(true, true, this.getRetryHandler(), requestConfig);
         } else {
-            return new RequestSpecificRetryHandler(true, false, this.getRetryHandler(), requestConfig);
+            return new RequestSpecificRetryHandler(request.isRetriable(), false, this.getRetryHandler(), requestConfig);
         }
     }
 

@@ -20,6 +20,17 @@ import okhttp3.Response;
 import java.util.concurrent.TimeUnit;
 
 /**
+ * The http client is implemented with the popular okhttp module, which can be used out of the box without any configuration:
+ * <p>
+ * {@code
+ * HttpRequest request = new HttpRequest.Builder()
+ * .verb(HttpRequest.Verb.GET)
+ * .uri("https://github.com")
+ * .build();
+ * LoadBalancingHttpClient httpClient = new LoadBalancingHttpClient();
+ * HttpResponse response = httpClient.execute(request, null);
+ * }
+ *
  * @author Rao Mengnan
  *         on 2018/6/14.
  */

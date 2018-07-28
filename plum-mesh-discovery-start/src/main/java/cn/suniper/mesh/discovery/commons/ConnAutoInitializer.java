@@ -38,6 +38,8 @@ public class ConnAutoInitializer {
      * @param application 连接服务注册的客户端
      * @return KVStore
      * @throws ClassNotFoundException 没有相关的依赖
+     * @throws IOException kvStore通信异常
+     * @throws InterruptedException getStore是一个阻塞的操作
      */
     public static KVStore getStore(Application application) throws ClassNotFoundException, IOException, InterruptedException {
         KvSource.Provider provider = KvSource.getSourceType();
