@@ -9,9 +9,16 @@
     <packaging>pom</packaging>
     <version>1.0.0</version>
 
+    <name>suniper-pma</name>
     <description>
         A convenient and efficient service discovery and network communication middleware
     </description>
+    <url>https://www.suniper.cn</url>
+
+    <scm>
+        <url>https://github.com/suniper/plum-mesh-agent.git</url>
+        <connection>scm:git:git@github.com:suniper/plum-mesh-agent.git</connection>
+    </scm>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
