@@ -1,5 +1,4 @@
 ## plum-mesh-agent
----
 [![Build Status](https://travis-ci.org/suniper/plum-mesh-agent.svg?branch=master)](https://travis-ci.org/suniper/plum-mesh-agent)  [![Coverage Status](https://coveralls.io/repos/github/suniper/plum-mesh-agent/badge.svg?branch=master)](https://coveralls.io/github/suniper/plum-mesh-agent?branch=master)
 
 pma是便捷高效的服务发现和网络通信中间件，封装了ribbon、netty、http等工具，可以快速地实现服务注册和负载均衡。
