@@ -7,7 +7,7 @@
     <groupId>cn.suniper.pma</groupId>
     <artifactId>plum-mesh-agent</artifactId>
     <packaging>pom</packaging>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
 
     <name>suniper-pma</name>
     <description>
@@ -15,9 +15,18 @@
     </description>
     <url>https://www.suniper.cn</url>
 
+    <developers>
+        <developer>
+            <name>raomengnan</name>
+            <email>raomengnan@gmail.com</email>
+            <organization>suniper</organization>
+        </developer>
+    </developers>
+
     <scm>
         <url>https://github.com/suniper/plum-mesh-agent.git</url>
-        <connection>scm:git:git@github.com:suniper/plum-mesh-agent.git</connection>
+        <connection>scm:git:git://github.com/suniper/plum-mesh-agent.git</connection>
+        <developerConnection>scm:git:git@github.com:suniper/plum-mesh-agent.git</developerConnection>
     </scm>
 
     <properties>
@@ -243,11 +252,4 @@
         </license>
     </licenses>
 
-    <developers>
-        <developer>
-            <name>raomengnan</name>
-            <email>raomengnan@gmail.com</email>
-            <organization>suniper</organization>
-        </developer>
-    </developers>
 </project>
