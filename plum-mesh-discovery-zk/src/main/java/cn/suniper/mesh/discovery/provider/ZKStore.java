@@ -1,3 +1,19 @@
+/*
+ * Copyright 2018 Suniper
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package cn.suniper.mesh.discovery.provider;
 
 import cn.suniper.mesh.discovery.KVStore;
@@ -25,6 +41,8 @@ import java.util.function.BiConsumer;
 import java.util.function.Supplier;
 
 /**
+ * Base in apache.zookeeper 3.4.12
+ *
  * @author Rao Mengnan
  *         on 2018/6/15.
  */
@@ -125,8 +143,8 @@ public class ZKStore implements KVStore {
             List<String> keys = new ArrayList<>();
             zooKeeper
                     .getChildren(prefix, watcher).forEach(
-                            s -> keys.add(String.join("/", prefix, s))
-                    );
+                    s -> keys.add(String.join("/", prefix, s))
+            );
             return keys;
         }
         return Lists.newArrayList();
@@ -172,7 +190,7 @@ public class ZKStore implements KVStore {
         private Supplier<Boolean> exitSignSupplier;
 
         ChildrenWatcher(String path, BiConsumer<cn.suniper.mesh.discovery.model.Event, Node> consumer,
-                               Supplier<Boolean> exitSignSupplier) {
+                        Supplier<Boolean> exitSignSupplier) {
             this.consumer = consumer;
             this.childrenWatcher = new ConcurrentHashMap<>();
             this.path = path;
@@ -198,7 +216,7 @@ public class ZKStore implements KVStore {
             }
 
             try {
-                List<String> res = listKeys(path,this);
+                List<String> res = listKeys(path, this);
                 log.debug(String.format("Sub nodes of %s: %s", path, res));
             } catch (Exception e) {
                 log.warn("failed to keep watch node: " + path, e);
@@ -208,10 +226,10 @@ public class ZKStore implements KVStore {
 
         private void listAndWatch(boolean accept) {
             try {
-                List<String> subList = listKeys(path,this);
+                List<String> subList = listKeys(path, this);
 
                 log.debug(String.format("size of %s: %s", path, subList.size()));
-                for (String sub: subList) {
+                for (String sub : subList) {
                     SubWatcher watcher = childrenWatcher.computeIfAbsent(sub, k -> {
                         log.debug("create new watcher for " + sub);
                         SubWatcher newWatcher = new SubWatcher(consumer, exitSignSupplier);
@@ -238,6 +256,9 @@ public class ZKStore implements KVStore {
         }
     }
 
+    /**
+     * Watch change of node
+     */
     class SubWatcher implements Watcher {
 
         private BiConsumer<cn.suniper.mesh.discovery.model.Event, Node> consumer;

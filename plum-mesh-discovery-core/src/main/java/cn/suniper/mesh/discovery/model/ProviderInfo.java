@@ -2,7 +2,7 @@ package cn.suniper.mesh.discovery.model;
 
 /**
  * ProviderInfo is information of a service, it can be map to {@link Node} or get from {@link Node}
- *
+ * Note: The field {@link ProviderInfo#weight} currently not working
  * @author Rao Mengnan
  *         on 2018/6/11.
  */
