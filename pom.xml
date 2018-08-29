@@ -27,6 +27,7 @@
         <url>https://github.com/suniper/plum-mesh-agent.git</url>
         <connection>scm:git:git://github.com/suniper/plum-mesh-agent.git</connection>
         <developerConnection>scm:git:git@github.com:suniper/plum-mesh-agent.git</developerConnection>
+        <tag>suniper-pma-1.0.1</tag>
     </scm>
 
     <properties>
