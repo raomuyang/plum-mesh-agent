@@ -18,6 +18,7 @@ deploy:
   provider: releases
   api_key: "$GITHUB_TOKEN"
   skip-cleanup: true
+  file_glob: true
   file: "$SOURCE/releases/*"
   on:
     tags: true
