@@ -13,7 +13,11 @@ install:
 before_deploy:
 - mvn clean package
 - mkdir releases
-- mv  $SOURCE/target/*.jar releases/
+- mv $SOURCE/plum-mesh-discovery-core/target/*.jar releases/
+- mv $SOURCE/plum-mesh-discovery-etcd/target/*.jar releases/
+- mv $SOURCE/plum-mesh-discovery-zk/target/*.jar releases/
+- mv $SOURCE/plum-mesh-discovery-start/target/*.jar releases/
+- mv $SOURCE/plum-mesh-transport/target/*.jar releases/
 deploy:
   provider: releases
   api_key: "$GITHUB_TOKEN"
