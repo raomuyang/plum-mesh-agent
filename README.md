@@ -12,7 +12,7 @@ pma是便捷高效的服务发现和网络通信中间件，封装了ribbon、ne
 
 ### 快速开始
 
-> 当前版本 1.0.1
+> 当前版本 1.0.2
 
 以Zookeeper为例，使用 `plum-mesh-discovery-start` 快速开始一个pma程序，`plum-mesh-discovery-start`可以通过classpath中添加的依赖决定自己的行为：
 
