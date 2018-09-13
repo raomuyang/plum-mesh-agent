@@ -126,14 +126,18 @@ public class ZKStore implements KVStore {
 
     @Override
     public void createParentNode(String parentNode) throws Exception {
-        PathUtils.validatePath(parentNode);
         if (parentNode.equals("/")) return;
-        File node = new File(parentNode);
-        String parent = node.getParent();
-        if (!exists(parent)) {
-            createParentNode(parent);
+        String parentOfParam = getParentName(parentNode);
+        if (!exists(parentOfParam)) {
+            createParentNode(parentOfParam);
         }
         put(parentNode, DEFAULT_NODE_VALUE);
+    }
+
+    static String getParentName(String path) {
+        PathUtils.validatePath(path);
+        if (path.equals("/")) return path;
+        return path.substring(0, path.lastIndexOf('/'));
     }
 
     private List<String> listKeys(String prefix, Watcher watcher) throws Exception {
